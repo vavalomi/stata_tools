@@ -1,0 +1,96 @@
+{smcl}
+{* 22January2003}{...}
+{hline}
+help for {hi:sedecomposition}{right:(Michael Lokshin and Martin Ravallion, 2004,The World Bank)}
+{hline}
+
+{title: Sectoral Decomposition of a Change in Poverty}
+
+{p 8 12}{cmd:sedecomposition} {cmd:using} {it:file1} [{it:weight}] [{cmd:if} {it:expr}] {cmd:,} {cmd:sector(}{it:varname}{cmd:)}
+ {cmd:pline1(}{it:varname/#}{cmd:)}  {cmd:pline2(}{it:varname/#}{cmd:)}  {cmd:var1(}{it:varname}{cmd:)} {cmd:var2(}{it:varname}{cmd:)}
+[{cmd:hc} {cmd:pg} {cmd:pgs}]
+
+{p}where {p_end}
+{p 8 8} {cmd:file1} is a file with a second year data. {p_end}
+
+{p 8 8} {cmd:var1} is a welfare indicator variable in the first  year data. {p_end}
+{p 8 8} {cmd:var2} is a welfare indicator variable in the second year data. {p_end}
+
+{p 8 8} {cmd:pline1} is a poverty line for the first year data that could be specified either
+as a numeric value or as a variable.{p_end}
+{p 8 8} {cmd:pline2} is a poverty line for the first year data that could be specified either
+as a numeric value or as a variable.{p_end}
+
+{p 8 8} {cmd:hc} is an option for poverty headcount decomposition {p_end}
+{p 8 8} {cmd:pg} is an option for poverty gap decomposition {p_end}
+{p 8 8} {cmd:pgs} is an option for poverty gap squared decomposition {p_end}
+
+
+{title:Description}
+
+{p}{cmd:sedecomposition} A change in poverty between two dates could be decomposed into three components:
+The {it:Intra-sectoral component} shows the contribution of poverty changes within the sector, controlling for
+their base period population share. The {it:Population-shift} component tells us how much of the poverty in the
+first data was reduced by the various changes in population shares of sectors between then and the second date.
+The {it:Interaction} component arise from the possible correlation between sectoral gains and population
+shift, the sign of the interaction effect tells us whether people tented to switch to the sectors where
+poverty was falling or not.
+{p_end}
+
+{p}{cmd:sedecomposition} uses observations from the dataset currently in memory (the master dataset)
+and observations from the Stata-format dataset stored as {it:file1} (using dataset).{p_end}
+
+
+{title:Options}
+
+{p 0 4} {it:file1} is a file with a second year data. This file should contain the welfare
+ indicator variable (e.g., expenditure or income) and all the variables the are used in
+in {cmd:if} and/or {cmd:weight} statements. That file must be specified.  If filename is specified without an
+extension, .dta is assumed. In order to run {cmd:sedecomposition} you should have open one of
+the files with data.{p_end}
+
+{p 0 4} {cmd:var1} is a welfare indicator variable in the first year data. This variable
+should be present in the opened file. This variable must be specified together with {cmd:pline1} variable.
+This variable should not be specified if {cmd:poor1} variable is specified. {p_end}
+
+{p 0 4} {cmd:var2} is a welfare indicator variable in the second year data. This variable
+should be present in the {cmd:using} file. This variable must be specified together with {cmd:pline2} variable.
+This variable should not be specified if {cmd:poor2} variable is specified.{p_end}
+
+{p 0 4} {cmd:pline1} is a poverty line for the first year of data. This poverty line can be
+specified either as a number as a variable that contains the value corresponding to the poverty line in the first date.
+This variable must be specified together with {cmd:welf1} variable. This variable should not be specified if {cmd:poor1} variable is specified.
+{p_end}
+
+{p 0 4} {cmd:pline2} is a poverty line for the first year of data. This poverty line can be
+specified either as a number as a variable that contains the value corresponding to the poverty line in the second date.
+This variable must be specified together with {cmd:welf2} variable.This variable should not be specified if {cmd:poor2} variable is specified.
+{p_end}
+
+{p 0 4} {cmd:hc}, {cmd:pg}, {cmd:pgs} are optional indicators of the poverty measure to be decomposed. If {cmd:hc}
+is specified the poverty head count (FGT_0) decomposition will be performed. Specifying {cmd:pg} or {cmd:pgs} will
+produce sectoral decomposiiton of poverty gap or squared poverty gap, respectivly. If none of these options
+is specified, head count decomposition will be performed.
+{p_end}
+
+
+
+{title:Examples}
+
+{p 4 8}{inp:. use data1}{p_end}
+
+{p 4 8}{inp:. sedecomposition using data2, welf1(expnd_1) welf2(expend_2) pline1(2000) pline2(2200) pg}{p_end}
+
+{p 4 8}{inp:. sedecomposition using data2 if region==1 [w=tot_weight],  welf1(expend_1) welf2(expend_2) pline1(pl1) pline2(pl2)}{p_end}
+
+{title:Also see}
+
+{p 1 14} Reference:  {hi: Monica Huppi and Martin Ravallion (1991) "The Sectoral Structure of Poverty During an Adjustment Period. Evidence for Indonesia in the Mid-1980s", {it:World Development} 19: 1653-1678}
+
+{title:Authors}
+
+{p 4 4 2} Michael Lokshin, DECRG, The World Bank. If you observe any problems
+{browse "mailto:mlokshin@worldbank.org"}.
+
+{p 4 4} Martin Ravallion, DECRG, The World Bank.
+

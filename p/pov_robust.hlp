@@ -1,0 +1,77 @@
+{smcl}
+{* 9february2004}{...}
+{hline}
+help for {hi:pov_robust}{right:({hi:Michael M. Lokshin and Martin Ravallion}, 2002-2004,The World Bank)}
+{hline}
+
+{title: Poverty stochastic dominance analysis}
+
+{p 8 12}{cmd:pov_robust} {cmd:using} {it:file1} [{it:weight}] [{cmd:if} {it:expr}] {cmd:,} {cmd:var1(}{it:varname}{cmd:)}
+ {cmd:var2(}{it:varname}{cmd:)} [ {cmd:pi} {cmd:pd} {cmd:ps} {it:graph_options}]
+
+{p}where {p_end}
+{p 8 8} {it:file1} is a file with a second year data. {p_end}
+{p 8 8} {cmd:var1} is a welfare indicator variable in the first  year data. {p_end}
+
+{p 8 8} {cmd:var2} is a welfare indicator variable in the second year data. {p_end}
+
+{p 8 8} {cmd:pi } is an option to graph the poverty incidence curve. {p_end}
+
+{p 8 8} {cmd:pd } is an option to graph the poverty deficit curve. {p_end}
+
+{p 8 8} {cmd:ps } is an option to graph the poverty severity curve. {p_end}
+
+{p 8 8} {it:graph_options} all graph options for {help twoway_line} are allowed. {p_end}
+
+{title:Description}
+
+{p}{cmd:pov_robust} graphs poverty {it:incidence}, {it:deficit} and {it:severity} curves. Each point
+on the poverty incidence curve gives the proportion of the population consuming less than the amount
+given on the horizontal axis of the graph. The line that represent the area under the {it:poverty incidence
+curve} up to each point is called {it:poverty deficit curve}. Each point on the {it:poverty deficit curve}
+is the value of the poverty gap index times the corresponding poverty line. If one calculates the area under
+the {it:poverty deficit curve} at each point of income distribution then one obtains the {it:poverty severity curve}
+Each point of the {it:poverty severity curve} is directly proportional to FGT measure P2.{p_end}
+
+{p}{cmd:pov_robust} uses observations from the dataset currently in memory (the master dataset)
+and observations from the Stata dataset stored as {it:file1} (using dataset). If {it:weight} or
+[{cmd:if} {it:expr}] is specified, the variables used for {it:weight} or {cmd:if} conditions should
+have the same name in both datasets.{p_end}
+
+{title:Options}
+
+{p 0 4} {it:file1} is a file with a second year data. This file should contain the welfare
+ indicator variable (e.g., expenditure or income) and all the variables the are used in
+in {cmd:if} statement. That file must be specified.  If filename is specified without an
+extension, .dta is assumed. In order to run {cmd:gicurver} you should have open one of
+the files with data.{p_end}
+
+{p 0 4} {cmd:var1} is a welfare indicator variable in the first year data. This variable
+should be present in the opened file. This variable must be specified. {p_end}
+
+{p 0 4} {cmd:var2} is a welfare indicator variable in the second year data. This variable
+should be present in the {cmd:using} file. This variable must be specified. {p_end}
+
+{p 0 4} {cmd:pi, pd, ps} Are the optional parameters. By specifying any one of these options
+the {it:poverty incidence}, {it:deficit}, or {it:poverty severity curve} could be plotted.
+If none of {cmd:pi, pd, ps} is specified, the {it:poverty incidence cureve} is plotted.{p_end}
+
+{p 0 4} {it:graph_options} all graph options for {help twoway_line} are allowed. {p_end}
+
+{title:Examples}
+
+{p 4 8}{inp:. use data1}{p_end}
+{p 4 8}{inp:. pov_robust using data2, var1(expnd_1) var2(expend_2)}{p_end}
+{p 4 8}{inp:. pov_robust using data2, var1(expnd_1) var2(expend_2) ps s(.) c(s)}{p_end}
+{p 4 8}{inp:. pov_robust using data2 if region==1,  var1(expend_1) var1(expend_2) pd}{p_end}
+
+{title:Also see}
+
+{p 1 14}Reference: {hi: e.g., Atkinson (1987) 'On Measurment of Poverty', {it:Econometrica}, Vol. 55: 244-263}{p_end}
+
+{title:Authors}
+
+{p 4 4 2} Michael Lokshin, DECRG, The World Bank. If you observe any problems
+{browse "mailto:mlokshin@worldbank.org"}.
+
+{p 4 4} Martin Ravallion, DECRG, The World Bank.

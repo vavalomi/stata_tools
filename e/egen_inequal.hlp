@@ -1,0 +1,132 @@
+{smcl}
+{* 19Mar2006}{...}
+{cmd:help egen_inequal}
+{hline}
+
+{title:Title}
+
+{p2colset 5 17 19 2}{...}
+{p2col :{hi:[D] egen} {hline 2}}Extensions to generate inequality and poverty measures{p_end}
+{p2colreset}{...}
+
+{title:Syntax for FGT poverty measures}
+
+{p 8 14 2}
+{cmd:egen} [{it:{help type}}] {newvar} {cmd:=} fgt({it:{help varname}}) {ifin}
+{cmd:,} {opt pl:ine(varname or #)} [ {opth by:(varlist)} {opth w:eights(varname)}
+{opt a:lpha(#)} ]
+
+{title:Syntax for inequality measures}
+
+{p 8 14 2}
+{cmd:egen} [{it:{help type}}] {newvar} {cmd:=} inequal({it:{help varname}}) {ifin}
+[{cmd:,} {opth by:(varlist)} {opth w:eights(varname)} {opth ind:ex(egen_inequal##indlist:fcn)} ]
+
+{p 4 4 2} Or alternatively,{p_end}
+
+{p 8 14 2}
+{cmd:egen} [{it:{help type}}] {newvar} {cmd:=} fcn({it:{help varname}}) {ifin}
+[{cmd:,} {opth by:(varlist)} {opth w:eights(varname)}]
+
+{title:Description}
+
+{p 4 4 2}
+The set of programs in this package uses {cmd:egen} to create {newvar} of the optionally
+specified storage {it:{help type}} equal to one of the standard inequality and
+Foster-Greer-Thorbecke (FGT) poverty measures.
+
+{p 4 4 2}
+(Note that egen may change the sort order of your data).
+
+{title:Options}
+
+{dlgtab:Common options}
+
+{p 4 4 2}
+The option {opth by:(varlist)} means that computations are performed
+separately for each group defined by {varlist}.
+
+{p 4 4 2}
+The option {opth w:eights(varname)} means that computation of poverty and inequality
+measures are performed with weights taken from the values of variable {varname}.
+
+{dlgtab:Poverty function options}
+
+{p 4 4 2}
+{opt pl:ine(varname or #)} is a non-optional parameter that defines the poverty line.
+The poverty line could be specified either as a variable or as a numeric value.
+
+{p 4 4 2}
+{opt a:lpha(#)} is an optional positive argument that specifies the parameter in the FGT-type
+poverty measures. {opt a:lpha(0)} corresponds to poverty rate; {opt a:lpha(1)} corresponds to
+average poverty gap index; {opt a:lpha(2)} corresponds to severity of poverty index. By default
+(alpha is not specified) the poverty rate is generated.
+
+{dlgtab:Inequality function options}
+
+{p 4 4 2}
+An optional parameter {opt ind:ex(fcn)} specifies the inequality function {it:fcn} that
+generates a new variable. The Gini inequality index is the default option (index is not specified).
+Alternative syntax uses the type of inequality index directly to generate the new variable.
+No {opt ind:ex(fcn)} parameter needs to be specified in that case. See examples for explanation.
+
+{p 4 4 2}list of inequality functions {it:fcn}:{p_end}
+
+{synoptset 10 tabbed}{...}
+{marker indlist}{...}
+{synoptline}
+{synopt :{cmd: rmd}}  the relative mean deviation {p_end}
+{synopt :{cmd: cov}}  the coefficient of variation {p_end}
+{synopt :{cmd: sdl}}  the standard deviation of logs {p_end}
+{synopt :{cmd: gini}} the Gini index {p_end}
+{synopt :{cmd: mehran}} the Mehran index {p_end}
+{synopt :{cmd: piesch}} the Piesch index {p_end}
+{synopt :{cmd: kakwani}} the Kakwani index {p_end}
+{synopt :{cmd: theil}} Theil entropy index {p_end}
+{synopt :{cmd: mld}} the mean log deviation {p_end}
+{synopt :{cmd: entropy}} generalized entropy measure (GE -1) {p_end}
+{synopt :{cmd: half}} generalized entropy measure (GE 2) {p_end}
+{synoptline}
+
+{title:Examples}
+
+{p 4 4 2}To create a new variable {it:gini_reg} containing the value of gini coefficient for the distribution of
+household expenditure {it:expend} by {it:region} using household weight {it:hhweight}: {p_end}
+
+{p 8 8 1}{cmd:. egen gini_reg = inequal(expend), by(region) weight(hhweight) index(gini)} {p_end}
+
+{p 6 6 1}Alternative syntax: {p_end}
+
+{p 8 8 1}{cmd:. egen gini_reg = gini(expend), by(region) weight(hhweight)} {p_end}
+
+{p 4 4 2}To create a new variable {it:mld_ur} containing the value of mean log deviation for the distribution of
+household expenditure {it:expend} by {it:urbrur} (urban and rural) using household weight {it:hhweight}: {p_end}
+
+{p 8 8 1}{cmd:. egen mld_ur = inequal(expend), by(urbrur) weight(hhweight) ind(mld)} {p_end}
+
+{p 6 6 1}Alternative syntax: {p_end}
+
+{p 8 8 1}{cmd:. egen mld_ur = mld(expend), by(urbrur) w(hhweight)} {p_end}
+
+{p 4 4 2}To create a new variable {it:p1_reg} containing value of the average poverty gap
+corresponding to the poverty line specified in variable {it:rpl} for the distribution of
+household expenditure {it:expend} by {it:region} using household weight {it:hhweight}: {p_end}
+
+{p 8 8 1}{cmd:. egen p1_reg = fgt(expend), by(region) weight(hhweight) pl(rpl) alpha(1)} {p_end}
+
+{p 4 4 2}To create a new variable {it:p0_reg} containing the poverty rate
+corresponding to the poverty line equal to {it:1234} for the distribution of
+household expenditure {it:expend} by {it:region} using household weight {it:hhweight}: {p_end}
+
+{p 8 8 1}{cmd:. egen p0_reg = fgt(expend), by(region) w(hhweight) pl(1234) a(0)} {p_end}
+
+{title:Authors}
+
+{p 4 4 2}M. Lokshin and Z. Sajaia (DECRG, The World Bank).
+
+{title:Also see}
+
+{psee}
+Online:  help for {helpb egen}, if installed: {helpb rspread}, {helpb inequal},
+{helpb ineqdeco}, {helpb poverty}, {helpb povdeco}
+{p_end}

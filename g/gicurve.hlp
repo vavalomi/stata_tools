@@ -1,0 +1,153 @@
+{smcl}
+{* version 2.11 02March2007 M. Lokshin*}{...}
+{hline}
+help for {hi:gicurve}{right:({hi:Michael M. Lokshin and Martin Ravallion}, 2007,The World Bank)}
+{hline}
+
+{title: Growth incedence curves}
+
+{p 8 12}{cmd:gicurve} {cmd:using} {it:file1} [{it:weight}] [{cmd:if} {it:expr}] {cmd:,} {cmd:var1(}{it:varname}{cmd:)}
+ {cmd:var2(}{it:varname}{cmd:)} [{cmd:np(}{it:#}{cmd:)} {cmdab:out:putfile(}{it:file2}{cmd:)} {cmdab:hc:index(}{it:#}{cmd:)}
+{cmdab:pl:ine(}{it:#}{cmd:)} {cmdab:yp:eriod(}{it:#}{cmd:)} {cmd:nograph} {cmd:ginmean} {cmd:gatmedian} {cmd:mgrpp}
+{cmd:meangr} {cmd:bands(}{it:#}{cmd:)} {cmd:knots(}{it:#}{cmd:)} {cmd:ci(}{it:# [#]}{cmd:) minmax addplot(plot)}
+{it:graph_options}]
+
+{p}where {p_end}
+{p 8 8} {it:file1} is a file with a second year data. {p_end}
+{p 8 8} {cmd:var1} is a welfare indicator variable in the first  year data. {p_end}
+
+{p 8 8} {cmd:var2} is a welfare indicator variable in the second year data. {p_end}
+
+{p 8 8} {cmd:np(#) } is a number of percentiles. {p_end}
+
+{p 8 8} {cmdab:out:putfile} is a Stata file where results could be saved.   {p_end}
+
+{p 8 8} {cmdab:hc:index} is a headcount index that could be specified.   {p_end}
+
+{p 8 8} {cmdab:pl:ine} is a poverty line that could be specified.   {p_end}
+
+{p 8 8} {cmd:nograph} is an option to suppress graph output.   {p_end}
+
+{p 8 8} {cmdab:yp:eriod(#)} is an option convert growth rate over
+	the period to annual growth rate.   {p_end}
+
+{p 8 8} {cmd:minmax} is an option to exclude the highest and the lowest value from the {cmd:gicurve} graph{p_end}
+
+{p 4 0} {it:Options for graph:} {p_end}
+
+{p 8 8} {cmd:ginmean} outputs growth in mean line on the graph. {p_end}
+
+{p 8 8} {cmd:gatmedian} outputs growth at median line on the graph. {p_end}
+
+{p 8 8} {cmd:mgrpp} outputs mean growth rate of the poorest p% curve on the graph. {p_end}
+
+{p 8 8} {cmd:meangr} outputs mean percentile growth rate line on the graph. {p_end}
+
+{p 8 8} {cmd:bands(#)} gicurve smoothing criteria. {p_end}
+
+{p 8 8} {cmd:knots(#)} another gicurve smoothing criteria. {p_end}
+
+{p 8 8} {cmd:ci(# [#])} option to generate confidence intervals around GIC. {p_end}
+
+{p 8 8} {cmd:minmax} option for dropping minimum and maximum values of gicurve on the graph.{p_end}
+
+{p 8 8} {cmd:addplot(plot)} option for adding additional twoway plots to gicurve.{p_end}
+
+{p 8 8} {it:graph_options} all graph options for {help twoway_line} are allowed. {p_end}
+
+{title:Description}
+
+{p}{cmd:gicurve} produces the growth incidence curve and calculates a measure of the rate of pro-poor growth.
+The growth incidence curve gives growth rates by quintiles ranked by welfare measure.
+Integrating this curve up to the headcount index of poverty gives a measure of the rate of pro-poor growth.
+In adddition, {cmd:gicurve} calculates and can graph the rate of pro-poor growth curve, growth at median, in mean,
+and the mean percentile growth rate line.{p_end}
+
+{p}{cmd:gicurve} uses observations from the dataset currently in memory (the master dataset)
+and observations from the Stata-format dataset stored as {it:file1} (using dataset).{p_end}
+
+{p}{cmd:Important note:} In order to specify weights and/or sample restrictions {cmd:if}, the weight variables
+and the variables used in the {cmd:if} condition should be present in both datasets and have the same names.{p_end}
+
+{title:Options}
+
+{p 0 4} {it:file1} is a file with a second year data. This file should contain the welfare
+ indicator variable (e.g., expenditure or income) and all the variables the are used in
+in {cmd:if} statement. That file must be specified.  If filename is specified without an
+extension, .dta is assumed. In order to run {cmd:gicurve} you should have open one of
+the files with data.{p_end}
+
+{p 0 4} {cmd:var1} is a welfare indicator variable in the first year data. This variable
+should be present in the opened file. This variable must be specified. {p_end}
+
+{p 0 4} {cmd:var2} is a welfare indicator variable in the second year data. This variable
+should be present in the {cmd:using} file. This variable must be specified. {p_end}
+
+{p 0 4} {cmd:np(#)} is a number of percentiles. This is an optional parameter. If it is not
+specified, the default value of 100 is used (i.e., growth incidence curve is calculated for
+each percentile.{p_end}
+
+{p 0 4} {cmdab:out:putfile} is a Stata file where results could be saved. This is an
+optional parameter that specifies Stata file where the results of calculations could
+by saved. The following variables are saved: {it:welf1} and {it:welf2} are the welfare
+indicator from the first and the second files, {it:pctl} is the corresponding percentile,
+{it:pr_growth} is the rate of growth at the particular percentile, {it:intgrl1} is the
+mean growth rate for the poorest percentiles,{it:gr_in_mean} is the growth rate in mean, and
+{it:gr_in_median} is the growth rate in median.{p_end}
+
+{p 0 4} {cmdab:hc:index} is a headcount index that could be specified. This is an optional
+parameter. If {cmdab:hc:index} is specified {cmd:gicurve} calculates the rate of pro-poor
+growth for the {cmdab:hc:index}% of population. {p_end}
+
+{p 0 4} {cmdab:pl:ine} is a poverty line that could be specified. This is an optional
+parameter. If {cmdab:pl:ine} is specified {cmd:gicurve} calculates the rate of pro-poor
+growth for the households with the level of welfare less of equal {cmdab:pl:ine}. It also
+outputs the headcound index that corresponds to the specified {cmdab:pl:ine}. If neither
+{cmdab:hc:index} nor {cmdab:pl:ine} is specified, {cmd:gicurve} calculates the mean
+growth rate of the poorest 10%, 15%, 20%, 25%, 30% and 100% of population.{p_end}
+
+{p 0 4} {cmdab:yp:eriod(#)} is an option to convert growth rate over the period to annual growth
+rate. The conversion is made by the following formula:
+annual growth rate = (growth rate+1)^((1/number_of_years))-1.   {p_end}
+
+{p 0 4} {cmd:bands(#)} and {cmd:knots(#)} are the options to smooth the gicurve line. The lower is the
+number of bands and the higher is the number of nods the smoother the gicurve is. Use the number equal
+ to the specified number of percentiles in bands to get the least smoothed line. See {help twoway_spline}
+for a discussion of these options {p_end}
+
+{p 0 4} {cmd:ci(# [#])} is an option to draw confidence intervals for the {cmd:gicurve} line. The firt argument in the
+option specifies the number of bootstrap repetitions to calculate the confidence intervals. The second (optional)
+argument specifies the significance level for the confidence interval. If no significance is specified,
+{cmd:gicurve} produces 95% confidence intervals. The procedure could be excessively slow for the large datasets and/or
+if the large number of repetitions is specified.{p_end}
+
+{p 0 4} {cmd:addplot(plot)} The {cmd:addplot()} option allows adding any twoway graph to the graph generated by
+gicurve. The option might be useful if, for example, one wants to add vertical lines to the gicureve graph.
+This could be done by specifying the following command:{p_end}
+
+{p 4 8} . gicurve ..., ... addplot(pci 10 20 40 20 10 40 60 40, lp(dash dot)){p_end}
+
+{p 0 4} {cmd:nograph} is an option to suppress graph output.   {p_end}
+
+{title:Examples}
+
+{p 4 8}{inp:. use data1}{p_end}
+{p 4 8}{inp:. gicurve using data2, var1(expnd_1) var2(expend_2)}{p_end}
+{p 4 8}{inp:. gicurve using data2, var1(expnd_1) var2(expend_2) s(.) c(s)}{p_end}
+{p 4 8}{inp:. gicurve using data2 if region==1,  var1(expend_1) var1(expend_2)}{p_end}
+{p 4 8}{inp:. gicurve using data2 if region==1,  var1(expend_1) var1(expend_2) np(200) out(file1)} {p_end}
+{p 4 8}{inp:. gicurve using data2 if region==1,  var1(expend_1) var1(expend_2) np(200) pl(3299.02)}{p_end}
+{p 4 8}{inp:. gicurve using data2 if region==1,  var1(expend_1) var1(expend_2) np(200) hc(28)}{p_end}
+{p 4 8}{inp:. gicurve using data2, var1(expnd_1) var2(expend_2) nograph} {p_end}
+
+
+{title:Also see}
+
+{p 1 14} Reference:  {hi: Martin Ravallion and Shaohua Chen (2002) "Measuring pro-poor growth", The World Bank},{p_end}
+
+{title:Authors}
+
+{p 4 4 2} Michael Lokshin, DECRG, The World Bank. If you observe any problems
+{browse "mailto:mlokshin@worldbank.org"}.
+
+{p 4 4} Martin Ravallion, DECRG, The World Bank.
