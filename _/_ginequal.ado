@@ -1,4 +1,4 @@
-// Last modified: 20-Mar-2006
+// Last modified: 2-May-2016
 # delimit ;
 program define _ginequal;
 	syntax newvarname =/exp [if] [in] [, BY(varlist) Weights(varname) INDex(string)];
@@ -21,9 +21,9 @@ program define _ginequal;
 			};
 		generate `badinc' = 0;
 		replace  `badinc' =. if (`inc' <= 0 | `inc'==.);
-		markout `touse'  `badinc';
+		markout `touse' `badinc';
 
-		markout `touse' `badinc' `by';
+		markout `touse' `by', strok;
 
 		if ("`by'" == "") {;
 			tempvar by;
@@ -48,7 +48,7 @@ program define _ginequal;
 			tempname wi;
 			local wi `weights';
 			bys `by': replace `tmptmp' = sum(`wi');
-    		replace `i' = ((2*`tmptmp')-`wi'+1)/2;
+			replace `i' = ((2*`tmptmp')-`wi'+1)/2;
 		};
 		if ("`index'" == "") {;
 			local index "gini";
