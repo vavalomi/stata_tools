@@ -1,0 +1,831 @@
+{smcl}
+{* 27Mar2008 }{...}
+{cmd:help xml_tab}
+{hline}
+
+{title:Title}
+
+{p2colset 9 20 22 2}{...}
+{p2col :{hi:xml_tab} {hline 2}}Save results in XML format{p_end}
+{p2colreset}{...}
+
+{* SYNTAX *}
+{title:Syntax}
+
+{p 6 16 2}
+{cmd:xml_tab} [{it:namelist}] [{cmd:,} {it:{help xml_tab##options:options}}]
+
+{pstd}
+where {it:namelist} is a list of stored estimations or matrices; see {helpb estimates}. A {it:namelist} comprises
+one or more specifications, separated by spaces. A specification can be a name of a stored estimation or a matrix
+name. {cmd:xml_tab} will output the estimation coefficients and one of the three statistics (standard errors,
+t-ratio, or p-values).
+
+{pstd}
+For estimation results {cmd:xml_tab} has enough information to calculate significance levels
+itself but if a matrix to be outputted, {cmd:xml_tab} looks also for {it:matname}_STARS matrix
+that must be of same size as {it:matname} and contain values 0,1,2 or 3 denoting significance levels.
+{help xml_tab##statistics:See} option {opt stars} for more details.
+
+{pstd}{marker extended}{...}
+The stored estimation could be also specified in an extended form with parameters.
+
+{p 6 16 2}
+{cmd:xml_tab} [{it:estname1(stat11 stat12, {it:eform_option})} [{it:estname2(stat21 stat22)} [...]]] [{cmd:,} {it:{help xml_tab##options:options}}]
+
+{pstd}
+where {it:estname} is a name of the stored estimation, and {it:stat1} and {it:stat2} are the names of matrixes stored in
+{cmd:e()}. Specification {opt estname(b V)} is identical to {opt estname}. You can access the names of the stored
+matrixes with {helpb ereturn list}. See {help xml_tab##exampleme:examples};
+
+{pstd}
+The extended form specification is useful when accessing non-standard statistics, for example, when outputting
+marginal effects of the parameters after e.g., {helpb mfx}, {helpb dprobit}. The extended form could also be used when
+outputting the results in exponentiated forms after commands such as {helpb streg}, {helpb stcox}, {helpb st}, etc.
+
+{pstd}
+Note that you may enclose {it:filename} in double quotes and must do so if {it:filename} contains blanks or other special characters.
+
+{marker options}{...}
+{synoptset 27 tabbed}{...}
+{synopthdr:options}
+{synoptline}
+{syntab:{help xml_tab##output:Output}}
+{synopt:{opt save(["]filename["])}}name and path for the output file {p_end}
+{synopt:{opt replace}}overwrite existing {it:filename}{p_end}
+{synopt:{opt append}}if workbook {it:filename} exists, add a new sheet, otherwise create a new workbook {p_end}
+{synopt:{opt sh:eet(name [, sh_opts])}}worksheet where the table is outputted{p_end}
+
+{p2col 10 34 40 8:{cmdab:col:or(}{it:#}{cmd:)}}specify tab color for a worksheet{p_end}
+{p2col 10 34 40 8:{cmdab:nog:ridlines}}hide gridlines on a worksheet{p_end}
+
+
+{synopt:{opt savem:at(name [, sm_opts])}}save estimates to a matrix{p_end}
+
+{p2col 10 34 40 8:{cmd:replace}}if matrix {it:name} already exists replace it. The default is to append{p_end}
+{p2col 10 34 40 8:{cmd:exit}}after writing the matrix exit {cmd:xml_tab} without creating an output file{p_end}
+
+{synopt:{opt mv(mvspec)}}change missing values to string or numeric values.{p_end}
+
+{syntab:{help xml_tab##statistics:Statistics}}
+{synopt:{opt sd}}show estimated coefficients and standard deviations (default){p_end}
+{synopt:{opt ts:tat}}show estimated coefficients and t-statistic{p_end}
+{synopt:{opt pv:alue}}show estimated coefficients and p-value{p_end}
+{synopt:{opt stat:s(scalarlist)}}report {it:scalarlist} statistics in the table{p_end}
+{synopt:{opt star:s(starspec)}}controls significance levels and symbols{p_end}
+{synopt:{opt noadj:ust}}report not adjusted t-statistics{p_end}
+{synopt:{it:eform_option}}display exponentiated coefficients. see {help eform_option};{p_end}
+
+{syntab:{help xml_tab##tablelayout:Table Layout}}
+{synopt:{opt b:elow}}show standard deviation (t-statistics or p-values) under the estimates{p_end}
+{synopt:{opt nobr:ackets}}remove brackets around standard deviation (t-statistics or p-values){p_end}
+{synopt:{opt r:ight}}show standard deviation (t-statistics or p-values) next to the estimates (default){p_end}
+{synopt:{opt lo:ng}}long output table style{p_end}
+{synopt:{opt wi:de}}wide output table style (default){p_end}
+{synopt:{opt keep(keeplist)}}report {it:keeplist} rows{p_end}
+{synopt:{opt drop(droplist)}}drop {it:droplist} rows from the table{p_end}
+{synopt:{opt eq:uations(matchlist)}}match the equations of the models according to {it:matchlist}{p_end}
+
+{syntab:{help xml_tab##tableformating:Table Formatting}}
+{synopt:{opt f:ormat(string)}}description of the output table format{p_end}
+{synopt:{opt l:ines(string)}}rows to be underlined{p_end}
+{synopt:{opt nol:abel}}display variable names instead of labels{p_end}
+{synopt:{opt c:onstant(string)}}specifies label for the constant{p_end}
+{synopt:{opt rb:lanks(string)}}add rows to the table{p_end}
+{synopt:{opt cb:lanks(cblist)}}add blank columns to the table{p_end}
+{synopt:{opt cw:idth(cwlist)}}modify column widths{p_end}
+{synopt:{opt tb:lanks(#)}}add blank rows at the top of the table{p_end}
+{synopt:{opt t:itle(string)}}table title{p_end}
+{synopt:{opt rn:ames(string)}}custom row names{p_end}
+{synopt:{opt cn:ames(string)}}custom column names{p_end}
+{synopt:{opt ce:q(string)}}custom column equation names (super-titles){p_end}
+{synopt:{opt note:s(string)}}add notes to the end of the table{p_end}
+{synopt:{opt font(string)}}specifies font for a worksheet{p_end}
+{synopt:{opt sty:le(stylename)}}predefined format styles for output{p_end}
+
+{syntab:{help xml_tab##system:System options}}
+{synopt:{opt ex:celpath(["]filename["])}}specifies the location of the {it:MS Excel} executable{p_end}
+{synopt:{opt cal:cpath(["]filename["])}}specifies the location of the {it:OO Calc} executable{p_end}
+{synopt:{opt noi:sily}}displays the complete list of options applied to the table{p_end}
+{synopt:{opt updateopts}}forces the options file update{p_end}
+
+{* DESCRIPTION *}
+{title:Description}
+
+{pstd}
+{cmd:xml_tab} saves Stata output directly into XML file that could be opened with {it:Microsoft Excel} or
+{it:OpenOffice Calc}. The program is relatively flexible and produces print-ready tables in {it:Excel} or {it:Calc}.
+{cmd:xml_tab} allows users to apply different formats to the elements of the output table and essentially do
+everything {it:MS Excel} or {it:OO Calc} can do in terms of formatting from within Stata.
+
+{pstd}
+{cmd:xml_tab} can create formatted tables of coefficients, standard errors, t- and p- values, summary statistics, etc.,
+after any Stata estimation command that saves its results in {cmd:e()}. The program allows saving the results of
+a single estimation or a matrix into a table, combining several stored estimations or matrixes into one table, and
+outputting several tables into the different sheets of XML workbook.
+
+{pstd}
+Calling {cmd:xml_tab} without any arguments saves the results of last estimation command into file {it:stata_out.xml}
+located in the current work directory. After the XML file is saved {cmd:xml_tab} can create links in the Stata Results
+window. Clicking on a link opens the output table in {it:MS Excel} or {it:OO Calc}.
+See {help xml_tab##system:system options} for details.
+
+{pstd}
+{cmd:xml_tab} can combine multiple estimations saved using {helpb estimates store} command. The example of outputting
+multiple estimates into one table might look as follows:
+
+{p 6 20 2}{opt .sysuse auto}{p_end}
+
+{p 6 20 2}{opt .regress price rep78 length mpg}{p_end}
+
+{p 6 20 2}{opt .estimates store reg1}{p_end}
+
+{p 6 20 2}{opt .regress price rep78 length mpg turn if foreign==1}{p_end}
+
+{p 6 20 2}{opt .estimates store reg2}{p_end}
+
+{p 6 20 2}{opt .xml_tab reg1 reg2}{p_end}
+
+{pstd}
+In this very simple example, the estimates from the first regression are saved under the name {bf:reg1}. The
+specification of the second regression contains one extra variable and the sample for the estimation is constrained.
+The estimates from the second regression are saved under the name {bf:reg2}. {cmd:xml_tab} creates an output table
+containing five columns. The first column contains the names of the variables used in either regression. The second and
+the fourth columns contains the estimated coefficients of the first and the second regression, and the standard errors
+of the coefficients are outputted in columns 3 and 5.
+
+{pstd}
+{cmd:xml_tab} has many additional options to control the outputted statistics, formatting and a general layout of
+the output tables. Please read the description of these options below and have a look at our examples.
+
+{title:Options}
+{* OUTPUT *}
+{marker output}{...}
+{dlgtab:Output}
+
+{phang} {* SAVE *}
+{opt save(["]filename["])} specifies a name for XML file where tables are outputted. If {opt save(["]filename["])} is
+omitted, the output will be saved in {cmd:stata_out.xml} located in the current working directory. Use {opt append} and
+{opt replace} options to instruct {cmd:xml_tab} to append a table into the new worksheet of the existing file or to
+replace the existing file.
+
+{pmore}
+Alternatively, the output file name can be specified with the {opt using} syntax. Instead of {opt save()} users can write:
+
+{p 12 20 2}{cmd: .xml_tab using c:\tmp\xml_out.xml, *} {p_end}
+
+
+{phang} {* REPLACE *}
+{opt replace} permits to overwrite the existing XML file.
+
+{phang} {* APPEND *}
+{opt append} if XML file already exists, a new sheet will be added to it where the output table will be saved.
+Otherwise the new file will contain one sheet with the output.
+
+{phang}{bf:NOTE:} You need to close XML file opened in Excel or Calc for {cmd:xml_tab} to save new tables there. If XML
+file is still opened, {cmd:xml_tab} reports an error message:{err: file can not be saved at this location}.
+
+{phang} {* SHEET *}
+{opt sheet(name)}
+You can output several tables into the different sheets of XML file (workbook). Excel or Calc files could contain
+multiple worksheets within a single document (workbook). {cmd:sheet()} option specifies the name for the new sheet
+where the table will be outputted. If not specified, a worksheet named {it:Sheet1} will be added.
+
+{pmore}
+A valid Excel worksheet name must have no more than 31 characters. The worksheet name cannot contain any of the
+following: : \ / ? * [ or ] and can not be left blank.
+
+{phang} {* SAVEMAT *}
+{opt savemat(name)} saves estimation results in a matrix. If {it:name} exists and option {opt replace} was not
+used then additional rows will be appended to that matrix. In this case number of columns in the existing matrix
+and the one to be appended must be the same. The output matrix will contain estimates and standard errors (t-statistics,
+p-values) in a form determined by {help xml_tab##tablelayout:table layout} options. Significance level info will be
+saved/appended to {it:name}_STARS matrix, see exporting a matrix {help xml_tab##matrices:example}.
+
+{phang} {* MV *}
+{cmd:mv(}{it:#}|{it:mvc}{cmd:=}{it:#} [{bind:{cmd:\} {it:mvc}{cmd:=}{it:#}}...] [{cmd:\} {opt else=}{it:#}]{cmd:)} specifies
+the new values (string or numeric) to which the missing values ate to be changed.
+
+{pmore}
+{opt mv(str)} specifies that all types of missing values be changed to {it:str}.
+
+{pmore}
+{opt mv(mvc=str)} specifies that occurrences of missing-value code {it:mvc} be
+changed to {it:str}.  Multiple transformation rules may be specified, separated
+by a backward slash {cmd:\}.  The list may be terminated by the special rule
+{opt else=}{it:str}, specifying that all types of missing values not yet
+transformed be set to {it:str}.
+
+{pmore}
+For example: {cmd:mv("")}, {cmd:mv(.n="N.A." \ .d="(dropped)" \ else="")}
+
+{pmore}{help xml_tab##options:back to top}
+
+{* STATISTICS *}
+{marker statistics}{...}
+{dlgtab:Statistics}
+
+{phang} {* SD TSTAT PVALUE *}
+{opt sd}, {opt tstat} and {opt pvalue} control what statistic will be outputted together with the estimated coefficient.
+If option {opt sd} is specified, the standard errors of the estimated coefficients are outputted. Specifying
+{opt ts:tat} produces a table of coefficients and the t-statistics. {opt pv:alues} outputs the probability that the true
+value of the estimated coefficient is zero.
+
+{pmore}
+Only one option can be specified. If no options are specified {opt sd} the standard deviations are outputted.
+
+{phang} {* STATS *}
+{opt stats(scalarlist)} specifies one or more statistics (scalars) to be displayed in the table. The statistics
+specified in {opt stats} are outputted at the end of the table and could be the number of observation stats(N);
+adjusted R2 for a regression {opt stats}(r2_a); value of log-likelihood {opt stats}(ll) and any statistics that are
+saved in e() scalars after estimation routines. See {helpb ereturn}.
+
+{pmore}
+In addition {it:scalarlist} may contain the following statistics:
+
+{p 12 20 2}{opt aic}{space 9}Akaike's information criterion{p_end}
+{p 12 20 2}{opt bic}{space 9}Schwarz's information criterion{p_end}
+{p 12 20 2}{opt rank}{space 8}rank of {cmd:e(V)} {hline 1} number of free parameters in model{p_end}
+{p2colreset}{...}
+
+{pmore}
+If several estimations are combined in one table the specified statistics will be displayed for each estimation.
+
+{phang} {* Stars *}
+{opt stars(starspec)} specifies the significance level(s) and the symbol(s) for the coefficients to be marked in the
+output table. The simple syntax for {bf:starspec} may contain up to three numbers separated by spaces corresponding to
+significance levels denoted by one, two and three stars. If {bf:numlist} is just one number, the coefficients with the
+p-value less than that number will be marked by a star. For example, option {opt stars(0.1)} will mark with one star
+all the coefficients with p-value less than 0.1. If two values are specified in the {bf:numlist}, {cmd:xml_tab} will
+mark with one star the coefficients with p-values that are less or equal to the first value and grater than the second
+value. Coefficients with p-values less than the second value will be marked by two starts. For example, specifying {opt
+stars(0.1 0.05)} will put one star on coefficients with pvalues in the range from 0.1 to 0.5 and put two stars on the
+coefficients with p-value less than 0.5.
+
+{pmore}The extended syntax allows selecting the symbols to mark the significance leves. In this case, {bf starspec}
+consist of up to three symbol/number pairs. The symbol could by one or several characters and the number indicates the
+significance level similar to the simple syntax described above.
+
+{pmore}
+By default, {cmd:xml_tab} output tables with the following {opt star} specification: {opt star(0.1 0.05 0.01)}.
+Alternatively, this option could be specified in the extended syntax as {opt star(* 0.1 ** 0.05 *** 0.01)}. Note that
+any symbol or a combination of several symbols cold be used instead of * in this specification. Specifying 0 in the
+numlist would suppress stars on the table: {opt star(0)}.
+
+{phang} {* NOADJust *}
+{opt noadjust} is used when outputting some transformations of the estimated coefficients (i.e. marginal effects). By
+default, {cmd:xml_tab} calculates t-statistics as f(b)/sd_f(b). But if {opt noadjust} is specified then t-stat=b/sd_b
+will be reported and used for p-values and significance calculations.
+
+{phang} {* eform *}
+{it:eform_option} when this option is specified the coefficients and the standard errors (t-statistics and
+p-values) for {ul:all} estimation results will be reported in exponentiated form. To transform only some of the
+estimation results, the {help xml_tab##extended:extended syntax} can be used. For example,
+
+{p 12 20 2}{cmd:.xml_tab reg streg(, hr) prob, replace}
+
+{pmore}outputs unmodified coefficients and standard errors for esimations {it:reg} and {it:prob}, but exponentiated
+(Hazard ratio) coefficients and modified standard errors for the estimation {it:streg} (displaying 'Haz Ratio' as a
+title).
+
+{pmore}{help xml_tab##options:back to top}
+
+{* TABLE LAYOUT *}
+{marker tablelayout}{...}
+{dlgtab:Table Layout}
+
+{phang} {* BELOW & RIGHT *}
+{opt below} and {opt right} control whether the standard deviation, t-statistic or p-values
+(see {help xml_tab##statistics:sd tstat pvalue}) will be placed to the right or below the coefficients. {opt right} is
+used by default.
+
+{pmore} For example: if {opt right} is specified the element of the output table will look like:{p_end}
+
+{p 13 20 2}{bf: 0.123 {it:0.456}}{p_end}
+
+{pmore} if {opt below} is specified the element of the output table will look like:{p_end}
+
+{p 13 20 2}{bf:0.123}{p_end}
+{p 12 20 2}{it:(0.456)}{p_end}
+
+{phang} {* NOBRACKETS *}
+{opt nobrackets} removes brackets around standard deviations (t-statistics or p-values), which is the default format when
+{opt below} is used.
+
+{phang} {* LONG & WIDE *}
+{opt long} and {opt wide} produce "long version" or "wide version" of output table. {opt wide} specifies that the
+individual equations from multiple-equation models (e.g., mlogit, biprobit, heckman) to be placed in separate columns.
+Summary statistics will be reported under the first equation if {opt wide} is specified. This is a default option.
+
+{pmore}
+For example if a dependent variable with three categories is fitted with {cmd:mlogit} using 10 exogenous
+variables, specifying {opt wide} option would result in a 12x5 table. The first column of this table contains variable
+labels/names, the second and third columns contain the estimated coefficients and a standard errors for the first
+equation, and the fourth and fifth columns contain the estimated coefficients and a standard errors for the second
+equation.
+
+{pmore}
+Alternatively, specifying option {opt long} places the equations of the multiple-equation estimation below one another
+in a single column.
+
+{phang} {* KEEP *}
+{opt keep(keeplist)} specifies the coefficients (and their order) to be included in the table. A {it:keeplist}
+comprises one or more specifications, separated by a space: a variable name (e.g., price), and equation name (e.g.,
+mean:), or a full name (e.g., mean:price).
+
+{pmore} Using {opt keep} in a multiple-equation or in multiple-estimation tables would output only variables specified
+in the {it:keeplist}. If some of the equations/estimations contain no variables in {it:keeplist}, these equations will
+not be outputted.
+
+{pmore} If you want to keep some variables only in selected equations, make sure you specify the correct names for the
+equations. {cmd:xml_tab} uses the name of a dependent variable as an equation name. {opt keep} will
+output statistics for the variables in {it:keeplist} in all estimation/equations with identical names (same dependent
+variable).
+
+{phang} {* DROP *}
+{opt drop(droplist)} identifies the coefficients to be dropped from the table. A {it:droplist} comprises one or more
+specifications, separated by spaces. A specification can be either a variable name (e.g. price), an equation
+name followed by a colon (e.g. mean:), or a full name (e.g. mean:price).
+
+{pmore}
+{opt drop(droplist)} option could be useful if a user wants to suppress the output of coefficients for some
+variables. For example, if the empirical specification includes several regional dummies, one might want to create the
+output tables without the coefficients on these dummies. If regional dummies are named reg1,...,reg12,
+specifying {opt drop(reg*)} will suppress the output of the coefficients on these dummies in the table.
+
+{pmore}
+In the multi-equation estimations (e.g., {helpb heckman}, {helpb heckprobit}) sometimes you might want to suppress the
+output of the coefficients for first stage equation. This could be done by specifying {cmd:drop(}select:{cmd:)}, where
+select is the name of the first stage equation. See more example of using {opt drop()} option in
+{help xml_tab##exampledk:Examples} section.
+
+{pmore}
+Characters * and ? can be used for variable names in the {it:keeplist} and {it:droplist}. The * character
+indicates to match one or more characters and the ? character matches a single character. All variables matching the
+pattern will be a included in the lists.
+
+{p 8 20 2}{cmd:.xml_tab, droop(region_*)}{p_end}
+{p 8 20 2}{cmd:.xml_tab, droop(region_?)}{p_end}
+
+{pmore}In this example, the first command will suppress the output of coefficients for variables region_1-region_15,
+but the second one will output just suppress the coefficients for region_1-region_9, because only the one
+digit(character) was allowed by ?.
+
+{pmore}
+If both {cmd:keep()} and {cmd:drop()} are specified, {cmd:keep} will be applied first.
+
+{phang} {* EQUATIONS *}
+{opt equations(matchlist)} specifies how the equations of the models in {it:namelist} are to be matched. This option works
+exactly the same way as {opt equations} in {cmd:estimates table}; see {help estimates##matchlist:estimates_options} for
+details.
+
+{pmore}{help xml_tab##options:back to top}
+
+{* TABLE FORMATING *}
+{marker tableformating}{...}
+{dlgtab:Table Formatting}
+
+{phang} {* FORMAT *}
+{opt format(flist)} specifies a list containing the formatting information for each cell of an XML table. The format
+of each cell is defined by a formatting string. A formatting string consists of five alpha-numerical symbols in the order
+specified bellow:
+
+
+{space 10}Cell type : (S|s) - string, (N|n) - numeric
+{space 10}Vertical alignment: (T|t|1) - Top , (C|c|2) - Center, (B|b|3) - Bottom
+{space 10}Horizontal alignment: (L|l|1) - Left, (C|c|2) - Center, (R|r|3) - Right
+{space 10}Font style: (R|r|0) - Regular, (B|b|1)- Bold, (I|i|2) - Italic, (O|o|3) - Bold Italic, (U|u|4) - Underline
+{space 10}Decimal places : 0-9 defining number of digits after the decimal
+
+{pmore}The order of codes in the formatting string is important. The formatting string can contain a mixture of
+alpha-numerical symbols. Upper and lower-case character and numerical codes can be used interchangably. For example,
+a formatting string can look like N2210, NCCI2, nT1R0, sccb0 etc.
+
+
+{pmore}The formatting for a table of size nxm is described as a list of codes for table's columns. That list has a
+form:
+
+{pmore}{cmd:((F_00 F_01...F_0n) (F_10 F_11...F1_n) ... (F_n0 F_n1...F_mn))}
+
+{pmore} Format lists for the different columns are enclosed in parenthesis and separated by a space. The first format
+list (F_00 F_01...F_0n) defines format for the rownames (e.g. variable names). The list (F_k0 F_k1...F_kn) describes
+formatting of cells of the {it:k}-th column; the F_k0 defines the format for the {it:k}-th column's header (e.g. coeff.
+std.err.).
+
+{pmore}
+If the dimensions of the formatting list are smaller than the dimensions of the output table, the formatting will be
+extended for the remaining rows/columns. If just one formatting code is specified as in {opt format((S2110))} (string,
+centered vertically, left justified, in bold, with 0 decimal places), that format will be applied to each cell
+of the output table (including variable names and column headers). If two codes are specified as in
+{opt format((S2110) (N2230))}, the column with variables names will be formatted using S2110 format and all other
+columns in the table will be formatted with N2230. Specifying three codes ({opt format((S2110) (NCCI0) (N2211))}) will
+apply format S2110 to the column of variable names; format N2230 to all odd numerical columns; and format N2211 to all
+even numerical columns of the table.
+
+{pmore}Similarly, is {opt k+1} formatting codes are specified the first format will be applied to the column of the
+variable/row names and remaining {opt k} formats will be applied repeatedly to every group of k columns of the table.
+By specifying more than one formatting code for a column you can control the formatting of every cell in a column.
+
+{pmore}Analogously to the extension rule for the column formats, the first code of the list will be applied to the column
+header and the next codes will be used repeatedly for the cells of a column. For example, format((S2110) (SCCB0 N2302
+N2322)) outputs the variable names with format S2110, the headers for each numerical column with format S2210
+format; every odd row has a format N2302 (right justified with 2 decimals) and every even row is formatted with
+N2322 (italic with 2 decimals).
+
+{pmore}See {opt styles} for an alternative way of specifying the formatting of the output table.
+
+{phang} {* LINES *}
+{opt lines(string)} will draw the bottom borderline in the cells with the listed variables. {it:string} is list
+of paired parameters. The first parameter specifies the variable name (or row number) and the second parameter a line style.
+The line style can be a number from 0 to 13 that corresponds to the line styles defined below. In addition, specifying
+{cmd:SCOL_NAMES}, {cmd:COL_NAMES} and {cmd:LAST_ROW} instead of variable names {cmd:xml_tab} will draw
+lines under equation names ({cmd:SCOL_NAMES}), statistic titles (e.g., coeff. std.error) {cmd:COL_NAMES} or under the
+last row of table ({cmd:LAST_ROW}).
+
+{pmore}{it:Line #}    {it:Style}
+
+{synoptset 14}{...}
+{synopt:{space 8}{opt #}}{it:Style}{p_end}
+
+{synopt:{space 8}{opt 0}}None{p_end}
+{synopt:{space 8}{opt 1}}Continuous hairline{p_end}
+{synopt:{space 8}{opt 2}}Continuous thin{p_end}
+{synopt:{space 8}{opt 3}}Continuous medium{p_end}
+{synopt:{space 8}{opt 4}}Continuous thick{p_end}
+{synopt:{space 8}{opt 5}}Dot thin{p_end}
+{synopt:{space 8}{opt 6}}DashDotDot thin{p_end}
+{synopt:{space 8}{opt 7}}DashDotDot medium{p_end}
+{synopt:{space 8}{opt 8}}DashDot thin{p_end}
+{synopt:{space 8}{opt 9}}DashDot medium{p_end}
+{synopt:{space 8}{opt 10}}Dash thin{p_end}
+{synopt:{space 8}{opt 11}}Dash medium{p_end}
+{synopt:{space 8}{opt 12}}SlantDashDot thin{p_end}
+{synopt:{space 8}{opt 13}}Double thick{p_end}
+{p2colreset}{...}
+
+{pmore}
+For example, {cmd:lines(COL_NAMES 1 turn 1 LAST_ROW 13)} draws a single line under the captions (e.g., coeff
+std.err), a single line under the variable {it:turn}, and draw a double line under the last raw of the table.
+
+{phang} {* NOLABEL *}
+{opt nolabel} by default, variable labels will be displayed as row names in the output table. If {opt nolabel} is
+specified, variable names will be displayed in the output table. This option is ignored when outputting matrixes.
+
+{phang} {* CONSTANT *}
+{opt constant(string)} controls the label for the constant term. The default in Stata is {bf:_cons}, but if
+specified, {it:string} will be displayed instead.
+
+{phang} {* RBLANKS *}
+{opt rblanks(varname [text] [format], [varname [text] [format]], [...])} inserts an
+empty row or text after the specified rows ({it:varname}) in the output table. For each inserted row {cmd:xml_tab}
+expects variable name {it:varname} after which an empty row or text should be added, the text itself {it:text}, and
+format for a new cell {it:format}. Multiple rows are separated by comma. Also see {opt format}.
+
+{pmore} For example, {cmd:rblanks}(turn "this text after turn" S2210, headroom "and this one below headroom") will add
+vertically and horizontally centered "{cmd:this text after turn}" below data row for variable called {it:turn} (if
+found) and "and this one below headroom" after variable headroom using the same format as for headroom.
+
+{pmore}In addition, specifying {cmd:SCOL_NAMES}, {cmd:COL_NAMES} and {cmd:LAST_ROW} instead of variable names
+{cmd:xml_tab} will add a row under equation names ({cmd:SCOL_NAMES}), statistic titles (e.g., coeff. std.error)
+{cmd:COL_NAMES} or under the last row of table ({cmd:LAST_ROW}).
+
+{phang} {* CBLANKS *}
+{opt cblanks(Equations|numlist)} inserts an empty column after each column specified in the {it: numlist}. The numbering of the
+numeric columns in the output table starts from 1, For example, {opt cblanks(2 4)} inserts an empty column after the second and
+the fourth columns of the output table. Column with the row names is number 0. If keyword {it:Equations} (abbreviation allowed) is
+used then blank column will be added after every equation (group of columns having the same column equation value).
+
+{phang} {* CWIDTH *}
+{opt cwidth(string)} controls the column withs in Excel worksheet. {it:string} is list of paired parameters.
+The first parameter specifies the column number (0 being the row names column) or keyword {it:Equations} and the second parameter
+a column width. You can specify a column width of 0 to 255. This value represents the number of characters
+that can be displayed in a cell that is formatted with the standard font. If the column width is set to 0,
+the column is hidden. {opt cwidth} is evaluated after the {opt cblanks} option so additional blank columns
+(if any) should be taken into consideration when determining column numbering.
+
+{phang} {* TBLANKS *}
+{opt tblanks(#)} inserts {it:#} rows at the beginning of an Excel sheet. The output table shifts down by # rows.
+
+{phang} {* TITLE *}
+{opt title(string)} specifies the title for the table. The {it:string} is inserted at the top of table. Example:
+
+{p 8 20 2}{cmd:.xml_tab *, title("Table 1.1")}{p_end}
+
+{phang} {* RNAMES CNAMES CEQ*}
+{opt rnames(string)}, {opt cnames(string)} and {opt ceq(string)} modify default row/column names as well as
+column equation names (super-titles) for the output matrix/estimation result. {it:string} should
+contain as many words as rows/columns in the output. To specify a name containing spaces it must be included in
+quotes. Table formating options {opt long}, {opt below}, {opt keep()}, {opt drop()}, {opt rblanks()} and
+{opt cblanks()} will be applied before the {opt rnames()}, {opt cnames(string)} and {opt ceq(string)}.
+
+{phang} {* NOTES *}
+{opt notes([#] line1 [, [#] line2 [, ...]])} adds one or more lines of text at the end of the table. Lines are
+separated by commas. If first word (after comma) of a line specification is numeric then the note will be shifted
+down by {it:#} rows, otherwise it will be written imediately after the previous output row.
+
+{phang} {* FONT *}
+{opt font("FontName" [Fontsize])} specifies the font for the output table in a particular sheet of the workbook. The
+{it:FontName} is a font name enclosed in quotes; an optional argument {it:FontSize} is the size of the font. Example:
+
+{p 8 20 2}{cmd:.xml_tab *, font("Arial Narrow" 12)}{p_end}
+
+{pmore}If no {opt font} is specified, the defualt font is used. When a new sheet is added to the existing workbook and
+{opt font} is specified, that {opt font} will be applied only to the table in this new sheet. So, each sheet in the
+workbook can use differnt fonts.
+
+{phang} {* NOGRIDLINES *}
+{opt nogridlines} hides gridlines on a worksheet. The default in Excel is to display gridlines. This option affects
+only the on-screen appearance, these lines are not printed.
+
+{phang} {* STYLE *}
+{opt style(stylename)} specifies layouts and formatting for the output table from predefined list of styles. These
+predefined styles are stored in the {cmd:xml_tab_options.txt}. If file is missing it will be recreated. There are
+several preset styles: default, S1, S2. user-defined styles can be added to the file. If neither {cmd:style} nor
+{cmd:format} was specified, the program creates output with {cmd:style(}default{cmd:)}.
+
+{pmore} {opt styles} in {cmd:xml_tab} are just sets of options that are written in file {it:xml_tab_options.txt} located
+in the directory where {cmd:xml_tab} is installed. Each {opt style} is recorded on the separate line. You can define
+your own styles by modifying file {it:xml_tab_options.txt}. The syntax for the styles consist of the style name, equal
+sign, and the set of options corresponding to that particular style. To create a style, add a new line in the file
+{it:xml_tab_options.txt} and define your style. For example:
+
+{p 8 20 2}{cmd:MYTABLES=sd right replace wide font("Arial Narrow" 12) sheet(Table 1)}{p_end}
+
+{pmore}You can instruct {cmd:xml_tab} to use this style by specifying:
+
+{p 8 20 2}{cmd:xml_tab *, style(mytables)}{p_end}
+
+{pmore}This command will create a table using the set of options defined in {opt style(mytables)}. In other words, the
+previous command is equivalent to:
+
+{p 8 20 2}{cmd:xml_tab *, sd right replace wide font("Arial Narrow" 12) sheet(Table 1)}{p_end}
+
+{pmore}User-specified options supersede any options defined in style. You can check the complete set of options
+associated with a particular style by using option {opt noisily}.
+
+{pmore}{help xml_tab##options:back to top}
+
+{* SYSTEM *}
+{marker system}{...}
+{dlgtab:System requirements and other options}
+
+{pstd}
+{cmd:xml_tab} is designed for Stata Version 8.0 and later. The XML files generated by {cmd:xml_tab} could be opened
+with 2003 or later versions of {it:Microsoft Excel} and {it:OpenOffice Calc 2.0} under Windows OS. It might be
+possible to open XML files with {it:MS Excel 2002}. The XML format is not supported by {it:MS Excel 2000} and
+earlier.
+
+{pstd}
+We have not tested the compatibility of XML output generated by {cmd: xml_tab} with {it:OpenOffice Calc} or
+{it:Microsoft Excel} running under Macintosh, UNIX, or Linux OS. We would be thankful for the comments from the
+users running Stata on these platforms about any problems they encounter with using {cmd:xml_tab}.
+
+{pstd}
+{cmd:xml_tab} will try to locate either {it:MS Excel} or {it:OO Calc} on your computer and if found, will create a
+link in the results window clicking on which will automatically open the output. You can explicitly specify where should
+{cmd: xml_tab} look for {it:Excel} or {it:Calc} if the programs are installed not in their default locations (you will
+need to do it just once). If neither of two programs was found or Stata runs in "console" or "batch" modes, no link
+will be created but {cmd:xml_tab} will still generate the output file.
+
+{phang} {* EXCELPATH *}
+{opt ex:celpath(["]filename["])}, {opt cal:cpath(["]filename["])} tells {cmd:xml_tab} where to find Excel and/or Calc
+executables, for example:
+
+{p 8 20 2}{cmd:.xml_tab, excelpath("D:\My programs\MS Excel\excel.exe")}{p_end}
+
+{p 8 20 2}{cmd:.xml_tab, calcpath("D:\My programs\OpenOffice.org\scalc.exe")}{p_end}
+
+
+{phang} {* NOISILY *}
+{opt noi:sily} displays the complete list of options applied to the table. This option could be useful whey using
+{opt style} in order to see all options associated with a particular style.
+
+{phang} {* UPDATEOPTS *}
+{opt updateopts} is used to recreate the options file. if {cmd: xml_tab_options.txt} is missing, it will be created
+automatically, otherwise {cmd:updateopts} can be specified to overwrite the existing options file with the one containing
+the default styles.
+
+{phang} {* WHICH *}
+{cmd:which xml_tab} displays the version and location of {cmd:xml_tab} installed on the computer. The latest version of
+the program can be installed in Stata by typing:
+
+{p 8 20 2}{cmd:.adoupdate xml_tab, update}
+
+{pmore}{help xml_tab##options:back to top}
+
+
+
+{title:Examples}
+
+{dlgtab:Introduction}
+
+{pstd}
+In all our examples we use stored estimates and matrixes defined by the code below:
+
+{p 6 20 2}{cmd:.sysuse auto, clear}{p_end}
+
+{p 6 20 2}{cmd:.regress price mpg headroom trunk      if foreign==0}{p_end}
+
+{p 6 20 2}{cmd:.estimates store reg1}{p_end}
+
+{p 6 20 2}{cmd:.regress price mpg headroom trunk turn if foreign==1}{p_end}
+
+{p 6 20 2}{cmd:.estimates store reg2, title(Only foreign cars)}{p_end}
+
+{p 6 20 2}{cmd:.heckman mpg weight length, sel(foreign = length displ) nolog}
+
+{p 6 20 2}{cmd:.estimates store heck1, title(Selection model)}{p_end}
+
+{pstd}
+In the above code we use datafile {bf:auto.dta}. We run a regression and save the results of this regression into the
+stored estimate {it:reg1}. We then run another regression with a different specification and save the results in the
+estimate {it:reg2} giving this estimate a title. Then we estimate {cmd:heckman} selection model. We store the estimates
+from this model to {it:heck1}.
+
+{dlgtab:Basic syntax}
+
+
+{p 6 20 2}{cmd:.xml_tab reg1 reg2, replace stats(r2_a) title("price regressions by car type")}{p_end}
+
+{pstd}
+In this example, {cmd:xml_tab} merges the estimates of two regression {it:reg1} and {it:reg2} forming a table with
+five columns. The first column contains the variable names; the second column contains the estimated coefficients
+from the first regression; the third column contains the standard errors for the coefficients from the first
+regression; the estimated coefficients and the standard errors from the second regression are placed in the fourth and
+fifth columns of the output table.
+
+{pstd}
+In addition to the coefficients and standard errors {cmd:xml_tab} also outputs the adjusted R2 for each regression at
+the bottom of the output table (option {opt stat(r2_a)}. With option {opt title("price regressions by car type")}
+{cmd:xml_tab} is instructed to place a text "Price regression by car type" on the top of output table. The numerical
+values in the table are formatted with a default format: both the a coefficients and the standard errors have three
+decimal places, standard errors are placed to the right from the coefficients and italicized.
+
+{pstd}
+The table is outputted into the file {it:stata_out.xml} located in the current Stata directory.
+
+
+{phang} {* EXAMPLE BELOW TSTAT SAVE SHEET *}
+{it:Extensions:} options {opt below, tstat, save, sheet}
+
+{p 6 20 2}{cmd:.xml_tab reg1 reg2 using "c:\my documents\table1", tstat below sheet("Table 2") stats(N r2_a)}{p_end}
+
+{pstd}{opt save()} saves the XML file as {it:c:\my documents\table1.xml}. The output table is placed in the sheet of
+XML workbook with the name {it:Table 2}. Specifying {opt tstat} outputs the estimation coefficients and the
+corresponding t-statistics. Option {opt below} places t-statistics in parenthesis under the coefficients.
+
+{marker exampledk}{...}
+{phang} {* EXAMPLE APPEND DROP/KEEP *}
+{it:Extensions:} options {opt append, drop/keep}
+
+{p 6 20 2}{cmd:.xml_tab heck1 using "c:\my documents\table1", pvalue right drop(length) sheet("Heckman") stats(ll)}
+{cmd: append}{p_end}
+
+{pstd}
+This command saves the estimation results from {cmd:heckman}. Option {opt append} adds a new sheet "Heckman" to XML file
+used in the previous example and outputs there the estimated coefficients and p-values for the binary and continuous
+parts of the ML Heckman estimation. Option {opt drop(length)} suppresses the output of the estimated coefficient for
+{it:length}. {opt stats(ll)} reports log-likelihood value for the system at the bottom of the table.
+
+{pstd}
+To suppress the output of the binary part of the ML Heckman estimation (loosely speaking to supers the output of the
+first stage equation), we insert the equation name as a parameter: {bf:drop(}foreign:{bf:)}.
+
+
+{phang} {* EXAMPLE LONG AND WIDE *}
+{it:Extensions:} options {opt long and wide}
+
+{pstd}
+By default, {cmd:xml_tab} outputs the results of multiple-equation estimations into separate columns for each equation.
+For example, the table formed in the last example consists of five columns: column with the variable names, two columns
+with the coefficients and p-values from the first stage equation, and two columns with the second stage equation
+estimates. To output the coefficients from both equations into one column, specify option {opt long}:
+
+{p 6 20 2}{cmd:.xml_tab heck1 using "c:\my documents\table1", long pvalue right sheet("Heckman_long") stats(ll)}
+{cmd: append}{p_end}
+
+{pstd}
+Note that the code above will keep two previous tables saved in sheets {it:Table 1} and {it:Heckman} in the file
+{it:c:\my documents\table1}. {cmd:xml_tab} will add a new sheet {it:Heckman_long} to the workbook and output the
+results in long specification into this sheet.
+
+
+{dlgtab:Print ready tables}
+
+{pstd}
+{cmd:xml_tab} allows to create print-ready tables from within Stata. Several options control the look of the output
+table.
+
+{pstd}
+Subcategories of variables could be conveniently separated using {opt rblanks()} option. The example below inserts an
+empty row after variable {it:{bf:mpg}} and puts a heading in italic into this row:
+
+{p 6 20 2}{cmd:.xml_tab reg1 reg2, replace stats(r2_a) rblanks(mpg "Interior Dimensions" S2220)}{p_end}
+
+{pstd}
+To separate the results of two regressions, use option {opt cblanks()} that insert an empty column after the columns
+specified as argument of this option. The code below inserts an empty column after the third column (standard errors of
+the first regressions).
+
+{p 6 20 2}{cmd:.xml_tab reg1 reg2, replace stats(r2_a) cblanks(3)}{p_end}
+
+{pstd}
+Option {opt line()} allows to underline rows of the table. To underline the last row of the output table with a double
+line use the following syntax:
+
+{p 6 20 2}{cmd:.xml_tab reg1 reg2, replace stats(r2_a) line(LAST_ROW 13)}{p_end}
+
+{pstd}
+To underline the row with coefficient {bf:mpg} with a single line and to underline the last row of the table with a
+double line use:
+
+{p 6 20 2}{cmd:.xml_tab reg1 reg2, replace stats(r2_a) line(LAST_ROW 13 mpg 1)}{p_end}
+
+{marker exampleme}{...}
+{dlgtab:Marginal effects}
+
+{pstd}
+You have to use a non-standard specification in order to create tables of marginal effects, elasticities, and other
+statistics generated by {helpb mfx}, {helpb dprobit}, and {helpb dlogit}. Suppose we want to generate a table of
+marginal effects after {helpb heckman} estimation.
+
+{p 6 20 2}{cmd:.heckman mpg weight length, sel(foreign = length displ) nolog}{p_end}
+{p 6 20 2}{cmd:.mfx, predict(xb)}{p_end}
+{p 6 20 2}{cmd:.estimates store heck_mfx, title(Heckman marginals)}{p_end}
+
+{pstd}
+Now, if we want to output, for example, the marginal effects from this estimation we write:
+
+{p 6 20 2}{cmd:.xml_tab heck_mfx(Xmfx_dydx Xmfx_se_dydx), replace}{p_end}
+
+{pstd}
+To output the marginal effects and the standard errors after {helpb dprobit} you would specify {it:(dfdx se_dfdx)}
+statistics.
+
+{pstd}
+Note that now we specify the names of matrixes with corresponding statistics parenthesis with the name of the
+stored estimates. You can check the names of the matrixes with stored statistics using {helpb ereturn list}.
+
+{marker matrices}{...}
+{dlgtab:Exporting a matrix}
+
+{pstd}
+{cmd:xml_tab} can also output any matrix in Stata memory. You can apply most of the options of {cmd:xml_tab} to control
+the layout and the formatting of the matrix output. You can create custom tables forming the matrixes of results and
+outputting them with {cmd:xml_tab}. {helpb tabstatmat} is a useful command to save various summary statistics into
+matrixes. The example below outputs matrix {bf:M} with a custom format into the default XML file.
+
+{p 6 20 2}{cmd:.matrix M = 1, 2 \ 3, 4}{p_end}
+{p 6 20 2}{cmd:.matrix M_STARS = 0, 2 \ 3, 1}{p_end}
+{p 6 20 2}{cmd:.xml_tab M, format((S2210, S2100, S2100), (S2210, N2301, N2301), (S2230, N2321, N2321))}{p_end}
+
+{pstd}Since matrix {bf:M_STARS} exists, output table will contain significance stars based on default levels
+and symbols. Thus, the output table will have a form:
+
+	  {tab}{bf:c1}{tab}{bf:c2}
+	r1{tab}  1.0{tab}  {it:2.1}**
+	r2{tab}  3.0*{tab}  {it:4.1}***
+
+
+
+{pstd}
+Another example demonstrates how to create and output a simple table of the means:
+
+{p 6 20 2}{cmd:.tabstat price mpg rep78 headroom trunk weight length, by(foreign) save}{p_end}
+{p 6 20 2}{cmd:.tabstatmat A}{p_end}
+{p 6 20 2}{cmd:.matrix TAB=A'}{p_end}
+
+{p 6 20 2}{cmd:.xml_tab TAB, replace}{p_end}
+
+{pstd}{cmd:tabstat} generates a table of means for the list of variables categorized by {opt foreigh}. {cmd:tabstatmat}
+saves the resutls to matrix A. This matrix has tree rows for Domestic, Foreign and Total. In the columns of matrix A
+are the means for the listed variables. We save the transpose matrix A into another matrix TAB. {cmd:xml_tab} ouptuts
+the matrix into the default XML file.
+
+{pstd}You can see more examples of using {cmd:xml_tab} in {opt xml_tab_example.do}.
+
+
+{title:Authors}
+
+{phang}Zurab Sajaia, zsajaia@worldbank.org
+
+{phang}Michael Lokshin, mlokshin@worldbank.org
+
+{phang}{browse econ.worldbank.org/programs/poverty/toolkit}
+
+{phang}Development Economics Research Group,
+
+{phang}The World Bank, 2006
+
+{title:Acknowledgement}
+
+{pstd}
+While the concept of {cmd:xml_tab} is original, we borrowed some functionality ideas from such programs as
+ {helpb estout} by Ben Jann, {helpb outreg} by John Luke Gallup, {helpb outreg2} by Roy Wada,
+{helpb modltbl} by John H. Tyler, {helpb mktab} by Nicholas Winter, {helpb outtex} by Antoine Terracol, or
+{helpb est2tex} by Marc Muendler.
+
+{title:Also see}
+
+{psee}
+Online: {helpb xmlsave}, {helpb estimates}, {helpb matrix}, {helpb which}{p_end}

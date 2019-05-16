@@ -1,0 +1,29 @@
+v 3
+d 'XML_TAB': module to save results in Excel XML format
+
+d xml_tab saves Stata output directly into XML file that could be opened with
+Microsoft Excel or OpenOffice Calc. The program is relatively flexible and produces
+print-ready tables in Excel or Calc. xml_tab allows users to apply different formats
+to the elements of the output table and essentially do everything MS Excel or OO Calc
+can do in terms of formatting from within Stata.
+d
+d KW: XML
+d KW: results
+d KW: output
+d KW: Excel
+d KW: OpenOffice
+d
+d Requires: Stata version 8.0
+d
+d Distribution-Date: 4Jun2008
+d
+d Author: Michael Lokshin, World Bank
+d Support: email Mlokshin@worldbank.org
+d
+d Author: Zurab Sajaia, World Bank
+d Support: email zsajaia@worldbank.org
+
+f xml_tab.ado
+f xml_tab.hlp
+f xml_tab_example.do
+f xml_tab_example.dta
