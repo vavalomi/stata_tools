@@ -1,0 +1,163 @@
+{smcl}
+{* 04Sep2006}{...}
+{cmd:help bioprobit}
+{hline}
+
+{title:Title}
+
+{p2colset 5 20 22 2}{...}
+{p2col :{hi: bioprobit} {hline 2}}Bivariate ordered probit regression{p_end}
+{p2colreset}{...}
+
+
+{title:Syntax}
+
+{phang}Bivariate ordered probit model
+
+{p 8 17 2}
+{cmd:bioprobit}
+{it:{help depvar:depvar1} depvar2} {varlist}
+{ifin} {weight}
+[{cmd:,}
+{it:{help bioprobit##options:options}}]
+
+{phang}Simultaneous bivariate ordered probit model
+
+{p 8 17 2}
+{cmd:bioprobit}
+({it:{help depvar:depvar1}} [=] {varlist:1}) ({it:{help depvar:depvar2}} [=] {varlist:2})
+{ifin}
+{weight}
+[{cmd:,} {it:{help bioprobit##options:options}}]
+
+
+{title:Syntax for predict}
+
+{p 8 16 2}
+{cmd:predict}
+{dtype}
+{it:{help newvar}}
+{ifin}
+[{cmd:,} {it:statistic}
+{opt o:utcome(outcome pair)} {opt nooff:set}]
+
+{synoptset 11 tabbed}{...}
+{synopthdr :statistic}
+{synoptline}
+{syntab :Main}
+{synopt :{opt xb1}} fitted values for equation 1{p_end}
+{synopt :{opt xb2}} fitted values for equation 2{p_end}
+{synopt :{opt stdp1}} standard error of fitted values for equation 1{p_end}
+{synopt :{opt stdp2}} standard error of fitted values for equation 2{p_end}
+{synoptline}
+{p2colreset}{...}
+
+{synoptset 20 tabbed}{...}
+{marker options}{...}
+{synopthdr}
+{synoptline}
+{syntab :Model}
+{synopt :{opth off:set1(varname)}} offset variable for first equation{p_end}
+{synopt :{opth off:set2(varname)}} offset variable for second equation{p_end}
+{synopt :{opt col:linear}} keep collinear variables
+
+{syntab :SE/Robust}
+{synopt :{opt r:obust}}synonym for {cmd:vce(robust)}{p_end}
+{synopt :{opth cl:uster(varname)}}adjust standard errors for intragroup correlation{p_end}
+
+{syntab :Reporting}
+{synopt :{opt l:evel(#)}}set confidence level; default is {cmd:level(95)}{p_end}
+
+{syntab :Max option}
+{synopt :{it:{help bioprobit##maximize_options:maximize_options}}}control the maximization process;{p_end}
+{synoptline}
+{p2colreset}{...}
+{p 4 6 2}
+{opt fweight}s, {opt iweight}s, and {opt pweight}s are allowed;see {help weight}.{p_end}
+
+{title:Description}
+
+{pstd}
+{opt bioprobit} fits maximum-likelihood two-equation ordered probit models of ordinal variables
+{depvar:1} and {depvar:2} on the independent variables {indepvars:1} and {indepvars:2}.
+The actual values taken on by dependent variables are irrelevant, except that larger values are assumed to
+correspond to "higher" outcomes.  //Up to 50 outcomes are allowed in Stata/SE
+and Intercooled Stata, and up to 20 outcomes in Small Stata//.
+
+{pstd}
+See {help logistic estimation commands} for a list of related estimation
+commands.
+
+
+{title:Options}
+
+{dlgtab:Model}
+
+{phang}
+{opth offset1(varname)}, {opth offset2(varname)}, {opt collinear}; see {help estimation options}.
+
+{dlgtab:Options}
+
+
+{phang}
+{opt robust}, {opth cluster(varname)}; see {help estimation options}.
+{opt cluster()} can be used with {opt pweight}s to produce estimates
+for unstratified cluster-sampled data.
+
+{dlgtab:Reporting}
+
+{phang}
+{opt level(#)}; see {help estimation options}.
+
+{marker maximize_options}{...}
+{dlgtab:Max options}
+
+{phang}
+{it:maximize_options}: {opt tech:nique(algorithm_spec)},
+{opt iter:ate(#)}, [{cmdab:no:}]{opt lo:g}, {opt tr:ace}, {opt hess:ian},
+{opt grad:ient}, {opt showstep}, {opt tol:erance(#)}, {opt ltol:erance(#)},
+{opt gtol:erance(#)}, {opt nrtol:erance(#)}, {opt nonrtol:erance},
+{opt from(init_specs)}; see {help maximize}.
+
+{title:Options for predict}
+
+{phang}
+{opt xb1} calculates the linear prediction for equation 1.
+
+{phang}
+{opt xb2} calculates the linear prediction for equation 2.
+
+{phang}
+{opt stdp1} calculates the standard error of the linear prediction of
+equation 1.
+
+{phang}
+{opt stdp2} calculates the standard error of the linear prediction of
+equation 2.
+
+{phang}
+{opt outcome(outcome pair)} specifies for which outcome pair the predicted probabilities
+are to be calculated.  {opt outcome()} should contain pair of either values of
+the dependent variables or one of {opt #1}, {opt #2}, {it:...}, with {opt #1}
+meaning the first category of a dependent variable, {opt #2} the second
+category, etc. If one of the arguments is missing then result will be the marginal probability,
+i.e. {opt outcome(., k)} wil retun Pr(y2=k)
+
+{phang}
+{opt nooffset} is relevant only if you specified {opth offset1(varname)} or
+{opt offset2(varname)} for
+{cmd:bioprobit}.  It modifies the calculations made by {opt predict} so that
+they ignore the offset variables; the linear predictions are treated as
+xb1 rather than xb1 + offset1 and xb2 rather than as
+xb2 + offset2.
+
+
+{title:Examples}
+
+{phang}{cmd:. bioprobit headroom foreign price length mpg  turn}{p_end}
+
+
+{title:Also see}
+
+{psee}
+Online: {helpb biprobit}, {helpb oprobit}, {helpb ml}{p_end}

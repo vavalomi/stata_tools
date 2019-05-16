@@ -1,0 +1,239 @@
+{smcl}
+{* 10Mar2008}{...}
+
+cmd:help movestay}
+{hline}
+
+{title:Title}
+
+{p2colset 5 20 22 2}{...}
+{p2col :{hi: movestay} {hline 2}}Maximum-likelihood estimation of endogenous switching regression model{p_end}
+{p2colreset}{...}
+
+
+{title:Syntax}
+
+{p 8 17 2}
+{cmd:movestay}
+({it:{help depvar:depvar0}} [=] {varlist:0}) ({it:depvar1 [=] varlist1})
+{ifin}
+{weight}
+{cmd:,}
+{cmdab:sel:ect:(}{it:depvar_s} [{cmd:=}] {it:varlist_s}{cmd:)}
+[{it:{help movestay##options:options}}]
+
+
+{title:Syntax for predict}
+
+{p 8 16 2}
+{cmd:predict}
+{dtype}
+{it:{help newvar}}
+{ifin}
+[{cmd:,} {it:statistic}]
+
+{synoptset 11 tabbed}{...}
+{synopthdr :statistic}
+{synoptline}
+{syntab :Main}
+{synopt :{opt ps:el}} the probability of being in regime 1{p_end}
+{synopt :{opt xb0}} fitted values for regime 0{p_end}
+{synopt :{opt xb1}} fitted values for regime 1{p_end}
+{synopt :{opt yc0}} fitted values for regime 1{p_end}
+{synopt :{opt yc1}} fitted values for regime 1{p_end}
+{synopt :{opt mills0}} Mills' ratio for regime 0{p_end}
+{synopt :{opt mills1}} Mills' ratio for regime 1{p_end}
+{synoptline}
+{p2colreset}{...}
+
+
+{synoptset 20 tabbed}{...}
+{marker options}{...}
+{synopthdr}
+{synoptline}
+{syntab :Model}
+{synopt :{opt select()}} specify selection equation: dependent and independent variables{p_end}
+{synopt :{opt col:linear}} keep collinear variables{p_end}
+
+{syntab :SE/Robust}
+{synopt :{opt r:obust}}robust estimator of variance{p_end}
+{synopt :{opth cl:uster(varname)}}adjust standard errors for intragroup correlation{p_end}
+
+{syntab :Reporting}
+{synopt :{opt l:evel(#)}}set confidence level; default is {cmd:level(95)}{p_end}
+
+{syntab :Max option}
+{synopt :{it:{help movestay##maximize_options:maximize_options}}}control the maximization process;{p_end}
+{synoptline}
+{p2colreset}{...}
+{p 4 6 2}
+{opt fweight}s, {opt iweight}s, and {opt pweight}s are allowed;see {help weight}.{p_end}
+
+
+{title:Description}
+
+{pstd}
+{opt movestay} uses the maximum likelihood method to estimate the endogenous switching regression model.
+It is implemented using the {cmd:d2} evaluator to calculate the overall log
+likelihood together with its first and second derivatives.
+
+{p 4 4 2}
+{cmd:movestay} estimates all of the parameters in the model:
+
+{p 8 8 2}(regression equation for regime 0: y0 is {it:depvar0}, x1 is {it:varlist0}){p_end}
+{p 16 16 2}y0 = x0 * b0 + e_0
+
+{p 8 8 2}(regression equation for regime 1: y1 is {it:depvar1}, x1 is {it:varlist1}){p_end}
+{p 16 16 2}y1 = x1 * b1 + e_1
+
+{p 8 8 2}(selection equation: Z is {it:varlist_s}){p_end}
+{p 16 16 2}y0 observed if Zg + u <= 0{p_end}
+{p 16 16 2}y1 observed if Zg + u > 0{p_end}
+
+
+{p 8 8 2}where:{p_end}
+{p 16 16 2}e_0 ~ N(0, sigma0){p_end}
+{p 16 16 2}e_1 ~ N(0, sigma1){p_end}
+{p 16 16 2}u   ~ N(0, 1){p_end}
+{p 16 16 2}corr(e_0, u) = rho_0{p_end}
+{p 16 16 2}corr(e_1, u) = rho_1{p_end}
+
+{p 4 4 2}Here {it:depvar0}, {it:depvar1} and {it:varlist0}, {it:varlist1}
+are the
+dependent variables and regressors for the underlying regression models
+(y0, y1 = xb), and {it:varlist_s} specifies the variables Z thought to determine
+which regime is observed.
+
+
+{title:Options}
+
+{dlgtab:Model}
+
+{phang}
+{opt select()} specifies variables in the selection equation. {it:varlist_s}
+includes the set of instruments that help identify the model.  This option is
+an integral part of the {cmd:movestay} estimation and is required. The
+selection equation is estimated based on all exogenous variables specified in
+the continuous equations plus instruments.  If there are no instrumental
+variables in the model, {it:depvar_s} must be specified.  In that case the
+model will be identified by non-linearities and the selection equation will
+contain all the independent variables that enter in the continuous equations.
+
+{phang}
+{opt collinear} see {help estimation options}.
+
+{dlgtab:SE/Robust}
+
+{phang}
+{opt robust} specifies that the Huber/White/sandwich estimator of the
+variance is to be used in place of the conventional MLE variance estimator.
+{opt robust} combined with {opt cluster} further allows observations which
+are not independent within cluster (although they must be independent between
+clusters).
+
+{pmore}
+If you specify {cmd:pweight}s, {cmd:robust} is implied.
+See {hi:[U] 23.14 Obtaining robust variance estimates}.
+
+{phang}
+{opth cluster(varname)} specifies that the observations are
+independent across groups (clusters) but not necessarily within groups.
+{it:varname} specifies to which group each observation belongs; e.g.,
+{opt cluster(personid)} in data with repeated observations on individuals.
+{opt cluster()} affects the estimated standard errors and variance-covariance
+matrix of the estimators (VCE), but not the estimated coefficients.
+{cmd:cluster()} can be used with {help pweight}s to produce estimates for
+unstratified cluster-sampled data.  Specifying {cmd:cluster()} implies
+{cmd:robust}.
+
+{dlgtab:Reporting}
+
+{phang}
+{opt level(#)}; see {help estimation options}.
+
+{marker maximize_options}{...}
+
+{dlgtab:Max options}
+
+{phang}
+{it:maximize_options} control the maximization process; see
+{help maximize}.  With the possible exception of {cmd:iterate(0)} and
+{cmd:trace}, you should only have to specify them if the model is unstable.
+The maximization uses option {cmd:difficult} by default. This option need not be specified.
+
+
+{dlgtab: predict options}
+
+{phang}
+{opt psel} calculates the probability of being in regime 1.
+
+{phang}
+{opt xb0} calculates the linear prediction for equation 0.
+
+{phang}
+{opt xb1} calculates the linear prediction for equation 1.
+
+{phang}
+{opt yc0} returns the predicted value of the dependent variable(s) in the regime 0. For example,
+if earning function is modeled for two sectors (regimes), then this option predicts the wage rate
+in sector one for all individuals in the sample.
+
+{phang}
+{opt yc1} returns the predicted value of the dependent variable(s) in the regime 1.
+
+{phang}
+{opt mills0} and {opt mills1} calculate corresponding Mills' ratios for two regimes
+
+
+
+
+{title:Examples}
+
+{p 4 4 2}To obtain full ML estimates:
+
+{p 6 6 2} Using instruments:
+
+{p 8 8 2}{cmd:. movestay y1 x1 x2 x3 x4, select(regime1=z1 z2)}
+
+{p 8 8 2}{cmd:. movestay (y1= x1 x2 x3 x4) (y1= x1 x2 x3 x5), select(regime1=z1 z2)}
+
+{p 6 6 2}Model is identified through non-linearities:
+
+{p 8 8 2}{cmd:. movestay (y1= x1 x2 x3 x4) (y1= x1 x2 x3 x5), select(regime1)}
+
+{p 4 4 2}To define and use each equation separately:
+
+{p 8 8 2}{cmd:. global wage_eqn y x1 x2 x3 x4}
+{break}{cmd:. global select_eqn regime z1 z2}
+
+{p 8 8 2}{cmd:. movestay ($wage_eqn), select($select_equn)}
+
+{p 4 4 2}To use options:
+
+{p 8 8 2}{cmd:. movestay y= x1 x2 x3 x4 if region=1 [w= hhweight], select(regime= z1 z2)}
+
+{p 8 8 2}{cmd:. movestay (y= x1 x2 x3 x4) if region=1, select(regime= z1 z2) tech("dfp")}
+
+{p 4 4 2}Prediction:
+
+{p 8 8 2}{cmd:. movestay y x1 x2 x3 x4, select(regime= z1 z2)}
+
+{p 8 8 2}{cmd:. predict yexpected, xb}
+
+{p 8 8 2}{cmd:. predict mymills1, mills1}
+
+{p 4 4 2}Example from the {it:Stata Journal}:
+
+{p 8 8 2}{stata `"do http://siteresources.worldbank.org/INTPOVRES/Resources/movestay_example.do"': . movestay lmo_wage age age2 edu13 edu4 edu5 reg2 reg3 reg4, select(private =m_s1 job_hold)}
+
+
+{title:Authors}
+
+{p 4 4 2}M. Lokshin (DECRG, The World Bank) and Z. Sajaia (Stanford University).
+
+
+{title:Also see}
+
+{p 4 13 2}
+Online:  help for {help regress}, {help heckman}, {help ml}
+

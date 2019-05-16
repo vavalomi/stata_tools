@@ -1,0 +1,103 @@
+{smcl}
+{* 05Feb2007}{...}
+{cmd:help lookfor_all} {right:{hi: Michael Lokshin and Zurab Sajaia}}
+{hline}
+
+{title:Title}
+
+{p2colset 8 23 2 1}
+{p2col :{hi:lookfor_all} {hline 2}}Searches for variables/patterns in .dta files
+{p2colreset}{...}
+
+
+{title:Syntax}
+
+{pstd}
+Searching within current directory
+
+{p 8 16 2}
+{cmd:lookfor_all} {it:pattern}[{it:pattern} [...]] [{cmd:,} {it:{help lookfor_all##options:options}}]
+
+{pstd}where {it:pattern} is a word that could be a name (or part of the name) of
+the variable and/or a word (or part of a word) in the variable label.{p_end}
+
+{pstd}
+Searching withing currect directory and subdirectories
+
+{p 8 16 2}
+{cmd:lookfor_all} {it:pattern} [{cmd:,} {it:{help lookfor_all##options:options}}]
+
+
+{marker options}{...}
+{synoptset 17 tabbed}{...}
+{synopthdr:options}
+{synoptline}
+{syntab:Main}
+
+{synopt:{opt sub:dir}}an option for searching subdirectories{p_end}
+{synopt:{opt dir:ectory(path)}}an option to specify the root directory where to search{p_end}
+{synopt:{opt d:escribe}}an option to format the output{p_end}
+{synopt:{opt code:book}}another option to format the output{p_end}
+
+{title:Description}
+
+{pstd}
+{cmd:lookfor_all} is an extension of a Stata program {cmd:lookfor}. {cmd:lookfor_all} searches through all Stata data files in a current directory and subdirectories
+for the variable(s) with a specified patterns. Each {it:pattern} could be a part/whole variable name and/or a word(part
+of the word) in the variable label. {cmd:lookfor_all} outputs the list of data files where the {it:pattern} was found and the
+list of variables within every data file that match the {it:pattern}. The list of files is clickable. By clicking on the file
+Stata loads that data file in memory and the file became active. {cmd:lookfor_all} can also search directories other than a
+current by specifying the path for a search.
+
+{title:Options}
+
+{dlgtab 4 2 :Main}
+
+{phang}
+{opt sub:dir}
+if specified {cmd:lookfor_all} searches through all .dta files in a current directory and subdirectories. If this option
+is not specified {cmd:lookfor_all} searches only within the files in a current directory.
+
+{phang}
+{opt dir:ectory(path)} specifies the {it:path} where {cmd:lookfor_all} should start searching. By default {cmd:lookfor_all} searches files
+in the current directory and it's subdirectories. Specifying {it:path} would make Stata to search data files in the
+{it:path} directory and its subdirectories.
+
+{phang}
+{opt d:escribe} controls the way the variables that match the {it:pattern} are outputted. By default {cmd:lookfor_all} outputs
+the variables following the name of the file. Specifying {opt d:escribe} makes Stata to produce a table of variables with
+their types and lables. You can control the output using the option of the standard Stata command {helpb describe}. These options
+are {opt simple short details fullname numbers}.
+
+{phang}
+{opt code:book} controls the way the variables that match the {it:pattern} are outputted. Specifying {opt code:book} makes Stata to produce a table of variables with
+number of unique observations, mean, minimum, maximum and the label of the matching variables.
+
+
+{title:Examples of searching within the current directory}
+
+{phang}{cmd:.lookfor_all edu}{p_end}
+
+{phang}{cmd:.lookfor_all edu, d simple}{p_end}
+
+{phang}{cmd:.lookfor_all edu, d short}{p_end}
+
+
+{title:Examples of searching the current directory and sub-directories}
+
+{phang}{cmd:.lookfor_all edu, sub}{p_end}
+
+{phang}{cmd:.lookfor_all edu, sub d fullnames}{p_end}
+
+{phang}{cmd:.lookfor_all edu, sub d numbers}{p_end}
+
+
+{title:Examples of searching the specified directory}
+
+{phang}{cmd:.lookfor_all edu, sub d dir("c:\data\")}{p_end}
+
+
+{title:Also see}
+
+{psee}
+Online: {helpb lookfor}, {helpb describe}{p_end}

@@ -1,0 +1,89 @@
+{smcl}
+{* 23June2006}{...}
+{cmd:help bestreg}
+{hline}
+
+{title:Title}
+
+{p2colset 9 20 22 2}{...}
+{p2col :{hi:bestreg} {hline 2}}Best variable subset selection{p_end}
+{p2colreset}{...}
+
+
+{title:Syntax}
+
+{p 8 16 2}
+{cmd:bestreg} [{depvar} {it:varblocklist}] {ifin} {weight} [{cmd:,} {opt fix:ed(varlist)} {opt v:ars(numlist)} {opt g:raph} {it:graph_options}]
+
+{pstd}
+where {it:varblocklist} is a list of one or more {it:varblock}s, and a {it:varblock} is either {varname}
+or {cmd:(}{varlist}{cmd:)}. A {it:varlist} in parenthesis indicates that this list of variables is to be considered
+as a group.
+
+
+{pstd}
+{cmd:aweight}s, {cmd:fweight}s, {cmd:iweight}s, and {cmd:pweight}s are allowed; see {help weight}.{p_end}
+
+{title:Description}
+
+{pstd}
+{cmd:bestreg} finds subsets of {it:varblocklist} that best predict {it:depvar} by a linear regression. Here we define
+the 'best' subset of a size {it:p} as the one with minimum residual sum of squares (RSS).
+Many criteria, which are used in identifying the best {it:p}-size subsets are monotone functions of RSS,
+including the adjusted R-square, the minimum mean square residual, and the Cp statistic of Mallows.
+
+{pstd}
+{cmd:bestreg} implements Duarte Silva's adaptation [1] of Furnival and Wilson's Leaps and Bounds Algorithm [2]
+for variable selection in regression analysis. The algorithm allows finding the best subset regressions without
+computing all possible regressions.
+
+{pstd}
+The result of the program is saved in {cmd: e(best)}. The variables are in rows, and for each subset size {it:p}
+there is a column of {bf:0}s and {bf:1}s, where variables with {bf:1}s were included in the regression. If {opt vars()}
+was not specified, regression results for the subset with overall highest adjusted R-squared will be displayed.
+
+
+
+{dlgtab:Main}
+
+{phang}
+{opt fixed(varlist)} specifies the list of variables that must be always included in the regressions.
+
+
+{phang}
+{opt vars(numlist)} for each {it:p}-member of the {it: numlist} the regression results for the best subset
+of size {it:p} will be displayed. By default, {cmd:bestreg} will
+
+
+{phang}
+{opt graph} displays a graph of  R-squared and adjusted R-squared against subset size. This graph can be useful for
+
+{pmore}
+additional {it:graph_options} can be specified as well; see {help twoway_line}.
+
+
+{title:Examples}
+
+{phang}{cmd:.bestreg price mpg headroom trunk}{p_end}
+
+{phang}{cmd:.tabulate headroom, generate(d_h)}{p_end}
+{phang}{cmd:.bestreg price mpg (d_h*) trunk}{p_end}
+
+
+{title:Author}
+
+{phang}Zurab Sajaia, zsajaia@worldbank.org
+
+
+{title:References}
+
+{phang}[1] Duarte Silva, A.P.(2002) Discarding Variables in a Principal Component Analysis:
+Algorithms for All-Subsets Comparisons, Computational Statistics, Vol. 17, 251-271.
+
+{phang}[2] Furnival, G.M. and Wilson, R.W. (1974). Regressions by Leaps and Bounds, Technometrics, Vol. 16, 499-511.
+
+
+{title:Also see}
+
+{psee}
+Online: {helpb regress}{p_end}
