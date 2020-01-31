@@ -1,0 +1,59 @@
+{smcl}
+{* 13Oct2006}{...}
+{cmd:help ppreg}
+{hline}
+
+{title:Title}
+
+{p2colset 5 20 22 2}{...}
+{p2col :{hi: ppreg} {hline 2}}Pseudo-panel regression{p_end}
+{p2colreset}{...}
+
+
+{title:Syntax}
+
+{p 8 17 2}
+{cmd:ppreg}
+{depvar} {varlist}
+{ifin}
+{weight}
+{cmd:,} {opth t:ime(varname)} {opth c:ohort(varname)}
+
+{p 4 6 2}
+{opt aweight}s, {opt fweight}s, {opt iweight}s, and {opt pweight}s are allowed; see {help weight}.{p_end}
+
+{title:Description}
+
+{pstd}
+{opt ppreg} fits fixed-effects model with correction for the measurement error in observed cohort means.
+
+{pstd}
+Let us suppose that we have a set of repeated independent cross-sections for {it:t}-time periods and we are
+estimating the following model:
+
+	y_ht=x_ht*beta+theta_h+e_ht (1)
+
+A 'cohort' is defined as a group with fixed membership, indifiduals of which can be identified as the show up in
+the survays.
+
+Then model (1) can be estimated using "within estimator" by
+
+{title:Options}
+
+{phang}
+{opt time(varname)} use {it:varname} to define the id for time period in the dataset. If datasets consists of set
+of repeated annual cross-sections, variable {cmd:year} will be the time id.
+
+{phang}
+{opt cohort(varname)} specifies the variable that is used to define cohorts. For example, if cohorts are formed based
+on individuals' age(birth year) then {it:varname} will be the {cmd:age} ({cmd:birthdate}) variable.
+
+{title:Examples}
+
+{phang}{cmd:. ppreg }{p_end}
+
+
+{title:Also see}
+
+{psee}
+Online: {helpb xtreg}{p_end}

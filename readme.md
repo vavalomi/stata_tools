@@ -8,7 +8,7 @@
 - **sedecomposition**: sectoral decomposition of poverty changes
 - **gconc**: generalized measures of concentration
 
-## Endogenous variables and aximum likelihood estimation
+## Endogenous variables and maximum likelihood estimation
 
 - **movestay**:  endogenous switching regression. [Stata Journal article](https://www.stata-journal.com/article.html?article=st0071)
 - **switch_probit**: binary choice models with binary endogenous regressors. [Stata Journal article](https://www.stata-journal.com/article.html?article=st0233)
@@ -17,3 +17,6 @@
 - **bestreg**: best vvariable subset selection
 - **xml_tab**: print-ready tables in Stata. [Stata Journal article](https://www.stata-journal.com/article.html?article=dm0037)
 - **lookfor_all**: serch for variables/patterns in .dta files
+
+
+- **ppreg**: efficient estimation of regressions based on pseudo-panel data
