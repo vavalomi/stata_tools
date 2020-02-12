@@ -141,4 +141,4 @@ Help:  {help inequality}, {help glcurve} (if installed).
 Stanislav Kolenikov (skolenik at gmail dot com)
 
 {phang}
-Zurab Sajaya (zsajaia at worldbank dot org)
+Zurab Sajaia (zsajaia at worldbank dot org)
