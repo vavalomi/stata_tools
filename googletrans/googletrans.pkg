@@ -1,6 +1,7 @@
- v 3
-    d googletrans. Translate strings using Google Translate web API.
-    d Program by me.
+v 3
+d googletrans. Translate strings using Google Translate web API.
+d Program by me.
 
-    f googletrans.ado
-    f googletrans.sthlp
+f googletrans.ado
+f googletrans.sthlp
+e
