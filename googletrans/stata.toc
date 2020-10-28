@@ -1,0 +1,3 @@
+v 3
+
+p googletrans Translate strings using Google Translate web API
