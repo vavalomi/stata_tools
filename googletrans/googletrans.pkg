@@ -1,6 +1,7 @@
 v 3
-d googletrans. Translate strings using Google Translate web API.
-d Program by me.
+d googletrans - Translate strings using Google Translate web API.
+d This command wraps `googletrans` python library to translate variable and value labels persent in the dataset
+d Author: Zurab Sajaia
 
 f googletrans.ado
 f googletrans.sthlp
