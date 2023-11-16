@@ -1,0 +1,44 @@
+{smcl}
+{* 16ONov2023}{...}
+{cmd:help elmo}
+{hline}
+
+{title:Title}
+
+{p2colset 5 20 22 2}{...}
+{p2col :{hi: elmo} {hline 2}}Sub-Group Inequality Decomposition{p_end}
+{p2colreset}{...}
+
+
+{title:Syntax}
+
+{p 8 18 2}
+{cmd:elmo}
+{varname}
+{ifin}
+{weight}
+[{cmd:,}
+{it:options}]
+
+{synoptset 16 tabbed}{...}
+{synopthdr}
+{synoptline}
+{syntab:Main}
+{synopt:{opt by:group(varname)}}numeric variable that defines groups{p_end}
+{synopt:{opt nomax}}do not compute the maximum between-group inequality{p_end}
+{synopt:{opt nofail}}do not return an error code when exiting{p_end}
+{synopt:{opt keepzeros}}include observations with 0s in the {it:varname}; default is to drop them{p_end}
+
+
+{p 4 6 2}
+{opt aweight}s and {opt fweight}s are allowed; see {help weight}.{p_end}
+
+{title:Description}
+
+{pstd}
+{opt elmo} implements sub-group inequality decomposition measure as proposed by Elbers, Lanjouw, Mistiaen, and Ozler.
+
+
+{title:References}
+{p 1 14} {hi: Chris Elbers, Peter Lanjouw, Johan A. Mistiaen and Berk Ozler (2005) "Re-Interpreting Sub-Group Inequality Decompositions", {it:World Bank Policy Research Working Paper} No. 3687}
+
