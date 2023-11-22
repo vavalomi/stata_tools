@@ -1,0 +1,17 @@
+v 3
+d 'ppreg': Efficient estimation of regressions based on pseudo-panel data
+
+d
+d KW: pseudo-panel
+d
+d Requires: Stata version 8.0
+d
+d Distribution-Date: 8Dec2008
+d
+
+d Author: Zurab Sajaia, World Bank
+d Support: email zsajaia@hotmail.com
+d Author: Richard Chiburis, Princeton University
+
+f ppreg/ppreg.ado
+f ppreg/ppreg.hlp

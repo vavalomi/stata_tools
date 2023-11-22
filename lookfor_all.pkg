@@ -1,0 +1,6 @@
+v 3
+d lookfor_all - An extention of a Stata program lookfor.
+d Distribution-Date: 17Mar2008
+
+f lookfor_all/lookfor_all.ado
+f lookfor_all/lookfor_all.hlp

@@ -1,0 +1,12 @@
+v 3
+d 'bioprobit': Maximum-likelihood estimation of two-equation ordered probit models with endogeneity.
+d
+d Distribution-Date: 17Aug2007
+d
+d Author: Zurab Sajaia, World Bank
+d Support: email zsajaia@hotmail.com
+
+f bioprobit/bioprobit.ado
+f bioprobit/bioprobit_d2.ado
+f bioprobit/bioprobit_p.ado
+f bioprobit/bioprobit.hlp

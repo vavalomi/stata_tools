@@ -1,3 +1,18 @@
 v 3
 
-t googletrans Translate strings using Google Translate web API
+p bestreg Best variable subset selection
+p bioprobit Bivariate ordered probit regression
+p egen_inequal Extension functions for -egen- command to generate inequality and poverty measures
+p elmo Sub-group inequality decomposition
+p fastgini Gini coefficient with jackknife standard errors
+p gicurve Growth incidence curve a measure of the rate of pro-poor growth
+p gidecomposition Growth and inequality decomposition
+p gconc Generalized measures of concentration
+p googletrans Translate strings using Google Translate web API
+p lookfor_all Search for variables/patterns in .dta files
+p movestay Endogenous switching regression
+p pov_robust Poverty stochastic dominance analysis
+p ppreg Efficient estimation of regressions based on pseudo-panel data
+p sedecomposition Sectoral decomposition of poverty changes
+p switch_probit Binary choice models with binary endogenous regressors
+p xml_tab Print-ready tables in Stata

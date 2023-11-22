@@ -1,0 +1,10 @@
+v 3
+d movestay - FIML algorithm to estimate the endogenous switching regression model.
+
+d Distribution-Date: 10mar2008
+
+f movestay/movestay.ado
+f movestay/movestay_d2.ado
+f movestay/movestay_p.ado
+f movestay/movestay.hlp
+

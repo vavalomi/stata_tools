@@ -1,0 +1,19 @@
+v 3
+d egen_inequal - egen extention functions for inequality and poverty measures.
+d Distribution-Date: 08sep2006
+
+f egen_inequal/_gcov.ado
+f egen_inequal/_gentropy.ado
+f egen_inequal/_gfgt.ado
+f egen_inequal/_ggini.ado
+f egen_inequal/_ghalf.ado
+f egen_inequal/_ginequal.ado
+f egen_inequal/_gkakwani.ado
+f egen_inequal/_gmehran.ado
+f egen_inequal/_gmld.ado
+f egen_inequal/_gpiesch.ado
+f egen_inequal/_grmd.ado
+f egen_inequal/_gsdl.ado
+f egen_inequal/_gtheil.ado
+f egen_inequal/_gxtile.ado
+f egen_inequal/egen_inequal.hlp

@@ -1,0 +1,6 @@
+v 3
+d gidecomposition - Growth-inequality decomposition.
+d Distribution-Date: 15May2007
+
+f gidecomposition/gidecomposition.ado
+f gidecomposition/gidecomposition.hlp

@@ -1,0 +1,14 @@
+v 3
+d 'gconc': Generalized measures of concentration.
+d
+d Distribution-Date: 3Feb2010
+d
+
+d Author: Stanislav Kolenikov, University of Missouri
+d Support: email kolenikovs@missouri.edu
+
+d Author: Zurab Sajaia, World Bank
+d Support: email zsajaia@hotmail.com
+
+f gconc/gconc.ado
+f gconc/gconc.sthlp

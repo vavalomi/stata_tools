@@ -1,0 +1,10 @@
+v 3
+d 'fastgini': Fast algorithm for calculation of Gini coefficient and it's jackknife standard errors.
+d
+d Distribution-Date: 15Feb2007
+d
+d Author: Zurab Sajaia, World Bank
+d Support: email zsajaia@hotmail.com
+
+f fastgini/fastgini.ado
+f fastgini/fastgini.hlp

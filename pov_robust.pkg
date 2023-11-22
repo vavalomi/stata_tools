@@ -1,0 +1,6 @@
+v 3
+d pov_robust - Stochastic Dominance Analysis.
+d Distribution-Date: 11Feb2008
+
+f povrobust/pov_robust.ado
+f povrobust/pov_robust.hlp

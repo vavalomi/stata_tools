@@ -1,0 +1,11 @@
+v 3
+d 'bestreg': Best variable subset selection.
+d
+d Distribution-Date: 04dec2006
+d
+d Author: Zurab Sajaia, World Bank
+d Support: email zsajaia@hotmail.com
+
+f bestreg/bestreg.ado
+f bestreg/bestreg.hlp
+f bestreg/lbestreg.mlib

@@ -1,0 +1,6 @@
+v 3
+d sedecomposition - Sectoral decomposition of inequality.
+d Distribution-Date: 26Mar2008
+
+f sedecomposition/sedecomposition.ado
+f sedecomposition/sedecomposition.hlp

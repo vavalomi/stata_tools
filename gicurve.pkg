@@ -1,0 +1,7 @@
+v 3
+d gicurve - Growth Incidence Curve.
+d Distribution-Date: 5Sep2008
+
+f gicurve/gicurve.ado
+f gicurve/gicurve.hlp
+

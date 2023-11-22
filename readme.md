@@ -14,9 +14,9 @@
 - **switch_probit**: binary choice models with binary endogenous regressors. [Stata Journal article](https://www.stata-journal.com/article.html?article=st0233)
 - **bioprobit**: bivariate ordered probit regression
 
-- **bestreg**: best vvariable subset selection
+- **bestreg**: best variable subset selection
 - **xml_tab**: print-ready tables in Stata. [Stata Journal article](https://www.stata-journal.com/article.html?article=dm0037)
-- **lookfor_all**: serch for variables/patterns in .dta files
+- **lookfor_all**: search for variables/patterns in .dta files
 
 
 - **ppreg**: efficient estimation of regressions based on pseudo-panel data
