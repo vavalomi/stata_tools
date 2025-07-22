@@ -20,6 +20,8 @@ end
 version 16.1
 
 python:
+import asyncio
+
 try:
     from googletrans import Translator, LANGUAGES
 except ImportError:
@@ -31,8 +33,8 @@ def trans(src_text, src="auto", dest="en"):
     translator = Translator()
 
     if src_text:
-        res = translator.translate(text=src_text, src=src, dest=dest)
-        SFIToolkit.display(res.text)
+        res = asyncio.run(translate_string(src_text, src, dest))
+        SFIToolkit.display(res)
         return
 
     SFIToolkit.displayln("translating variable labels:")
@@ -40,7 +42,7 @@ def trans(src_text, src="auto", dest="en"):
         lang = Characteristic.getVariableChar(vi, "lang")
         SFIToolkit.display("  {0} ... ".format(Data.getVarName(vi)))
         if lang != dest:
-            res = translator.translate(text=Data.getVarLabel(vi), src=src, dest=dest)
+            res = asyncio.run(translate_string(Data.getVarLabel(vi), src, dest))
             Data.setVarLabel(vi, res.text)
             Characteristic.setVariableChar(vi, "lang", dest)
             SFIToolkit.displayln("done")
@@ -53,15 +55,26 @@ def trans(src_text, src="auto", dest="en"):
         charname = "{0}_lang".format(li)
         lang = Characteristic.getDtaChar(charname)
         if lang != dest:
-            lbls = ValueLabel.getLabels(li)
+            try:
+                lbls = ValueLabel.getLabels(li)
+            except SystemError:
+                SFIToolkit.displayln(f"cannot ready label values")
+                continue
             vals = ValueLabel.getValues(li)
-            results = translator.translate(text=lbls, src=src, dest=dest)
+            results = asyncio.run(translate_string(lbls, src=src, dest=dest))
             for i in range(0, len(lbls)):
                 ValueLabel.setLabelValue(li, vals[i], results[i].text)
             Characteristic.setDtaChar(charname, dest)
             SFIToolkit.displayln("done")
         else:
             SFIToolkit.displayln("already in {0}".format(lang))
+
+async def translate_string(src_text, src="auto", dest="en"):
+    async with Translator() as translator:
+        res = await translator.translate(text=src_text, src=src, dest=dest)
+
+        return res
+
 
 def list_languages():
     SFIToolkit.displayln("{hline 6}{c TT}{hline 22}")
