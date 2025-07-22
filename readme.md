@@ -18,5 +18,10 @@
 - **xml_tab**: print-ready tables in Stata. [Stata Journal article](https://www.stata-journal.com/article.html?article=dm0037)
 - **lookfor_all**: search for variables/patterns in .dta files
 
-
 - **ppreg**: efficient estimation of regressions based on pseudo-panel data
+
+## Installation instructions
+
+You can browse and install any of the commands by typing:
+
+```. net from https://raw.githubusercontent.com/vavalomi/stata_tools/refs/heads/master ```
